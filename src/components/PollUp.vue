@@ -26,11 +26,20 @@
   </div>
 </template>
 <script setup lang="ts">
+import '../assets/styles/V3Emoji.scss';
 import EmojiData from '../assets/emojidata/emoji-data.json';
+import SizeData from '../assets/options/SizeData.json';
+import ThemeData from '../assets/options/ThemeData.json';
 import { emojiFilter } from '../utils/emojiFilter';
+const props = defineProps<{
+  size: string;
+  theme: 'dark' | 'default';
+}>();
 const disableGroup = inject<string[]>('disableGroup', []);
 const emit = defineEmits(['clickEmoji']);
 const data: Emoji.ObjectItem = Object.create(EmojiData);
+const sizeData: Emoji.JsonData = Object.create(SizeData);
+const themeData: Emoji.JsonData = Object.create(ThemeData);
 const activeTab = ref('');
 const pollUpEl = ref<HTMLElement>();
 const filterData = (data: any) => {
@@ -67,6 +76,14 @@ const changePos = () => {
 onMounted(() => {
   changePos();
   document.addEventListener('scroll', changePos);
+  if (pollUpEl.value) {
+    for (let key in sizeData[props.size]) {
+      pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key] + 'px');
+    }
+    for (let key in themeData[props.theme]) {
+      pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key]);
+    }
+  }
 });
 onBeforeUnmount(() => {
   document.removeEventListener('scroll', changePos);
@@ -74,35 +91,43 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
+$fontsize: var(--fontsize);
+$itemsize: var(--itemsize);
+$width: var(--width);
+$rowsize: var(--rowsize);
+$backgroundcolor: var(--backgroundcolor);
+$hovercolor: var(--hovercolor);
+$activecolor: var(--activecolor);
+$shadowcolor: var(--shadowcolor);
 .pollup {
-  width: 600px;
+  width: $width;
   height: 400px;
   position: absolute;
   right: 0;
   bottom: 50px;
   transition: all ease 0.5s;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.3);
+  background-color: $backgroundcolor;
+  box-shadow: 3px 3px 10px $shadowcolor;
   border-radius: 15px;
   overflow: hidden;
   .emoji-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 50px);
-    grid-template-rows: repeat(auto-fill, 50px);
+    grid-template-columns: repeat(auto-fill, $rowsize);
+    grid-template-rows: repeat(auto-fill, $rowsize);
     justify-content: space-between;
     overflow-y: auto;
     height: 90%;
     &-item {
-      width: 30px;
-      height: 30px;
+      width: $itemsize;
+      height: $itemsize;
       padding: 10px;
-      font-size: 20px;
+      font-size: $fontsize;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
       &:hover {
-        background-color: #e7e7e7;
+        background-color: $hovercolor;
       }
     }
   }
@@ -110,19 +135,20 @@ onBeforeUnmount(() => {
     position: absolute;
     width: 100%;
     height: 10%;
+    overflow: auto;
     bottom: 0;
     display: flex;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.3);
+    background-color: $backgroundcolor;
+    box-shadow: 3px 3px 10px $shadowcolor;
     .tab-item {
       padding: 15px;
-      font-size: 18px;
+      font-size: $fontsize;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
       &.active {
-        background-color: rgb(192, 192, 192);
+        background-color: $activecolor;
       }
     }
   }
