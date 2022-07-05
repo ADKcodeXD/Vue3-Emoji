@@ -13,4 +13,7 @@ declare namespace Emoji {
     src: string;
     name: string;
   }
+  interface JsonData {
+    [key: string]: any;
+  }
 }
