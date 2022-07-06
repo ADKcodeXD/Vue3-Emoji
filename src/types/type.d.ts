@@ -18,3 +18,5 @@ declare namespace Emoji {
     [key: string]: any;
   }
 }
+
+declare module 'vue3-emoji';
