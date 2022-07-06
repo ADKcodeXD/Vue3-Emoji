@@ -24,6 +24,12 @@ const disableGroup = ['食物&饮料'];
       <input v-model="inputText" type="textarea" style="width: 300px" />
     </div>
   </div>
+  <V3Emoji
+    :disable-group="disableGroup"
+    @click-emoji="appendText"
+    :options-name="optionsName"
+    :recent="true"
+  />
 </template>
 
 <style scoped>

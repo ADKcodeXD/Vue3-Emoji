@@ -2,7 +2,7 @@
   "name": "vue3-emoji",
   "private": false,
   "author": "ADKCodeXD",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "dist/lib.umd.js",
   "module": "dist/lib.es.js",
