@@ -1,14 +1,6 @@
-$small-size-width:300px;
-$mid-size-width:500px;
-$big-size-width:800px;
-$big-emoji-size:20px;
-$mid-emoji-size:16px;
-$small-emoji-size:12px;
-
-
-
-
-
+p{
+    margin: 0;
+}
 ::-webkit-scrollbar {
     /*高宽分别对应横竖滚动条的尺寸*/
     width: 6px;
