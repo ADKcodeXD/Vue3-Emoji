@@ -2,12 +2,14 @@
   "name": "vue3-emoji",
   "private": false,
   "author": "ADKCodeXD",
-  "version": "1.0.1",
+  "description": "一个简单的Emoji表情选择组件",
+  "version": "1.0.4",
   "license": "MIT",
   "main": "dist/lib.umd.js",
   "module": "dist/lib.es.js",
   "style": "dist/style.css",
   "type": "module",
+  "typings": "types/type.d.ts",
   "bugs": {
     "url": "https://github.com/ADKcodeXD/Vue3-Emoji/issues"
   },

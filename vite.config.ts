@@ -9,7 +9,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/packages/index.ts'),
       name: 'V3Emoji',
-      fileName: format => `lib.${format}.js`
+      fileName: format => `Vue3Emoji.${format}.js`
     },
     rollupOptions: {
       external: ['vue'],
