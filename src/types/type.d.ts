@@ -5,6 +5,7 @@ declare namespace Emoji {
     skin_tone_support: boolean;
     unicode_version: string;
     emoji_version: string;
+    skin_tone_support_unicode_version: string;
   }
   interface ObjectItem {
     [key: string]: EmojiItem[];
