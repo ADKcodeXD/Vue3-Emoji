@@ -3,6 +3,7 @@
   "private": false,
   "author": "ADKCodeXD",
   "version": "1.0.0",
+  "license": "MIT",
   "main": "dist/lib.umd.js",
   "module": "dist/lib.es.js",
   "style": "dist/style.css",
