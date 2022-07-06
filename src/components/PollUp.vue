@@ -145,6 +145,9 @@ const changePos = () => {
       pollUpEl.value.style.bottom = 'unset';
       pollUpEl.value.style.top = '50px';
     }
+    if (pollUpEl.value.getBoundingClientRect().left < 0) {
+      pollUpEl.value.style.left = '0';
+    }
   }
 };
 
