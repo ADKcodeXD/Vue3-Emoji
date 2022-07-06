@@ -1,12 +1,35 @@
 {
   "name": "vue3-emoji",
-  "private": true,
-  "version": "0.0.1",
+  "private": false,
+  "author": "ADKCodeXD",
+  "version": "1.0.0",
+  "main": "dist/lib.umd.js",
+  "module": "dist/lib.es.js",
+  "style": "dist/style.css",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ADKcodeXD/Vue3-Emoji/issues"
+  },
+  "homepage": "https://github.com/ADKcodeXD/Vue3-Emoji",
+  "keywords": [
+    "vue3-emoji",
+    "emoji"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "dist/lib.es.js",
+      "require": "dist/lib.umd.js"
+    },
+    "./*": "./*"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "type-check": "vue-tsc --noEmit",
-    "lint": "eslint --ext .ts,.js,.vue ./",
+    "lint": "eslint --ext .ts,.js,.vue ./ ",
     "lint:fix": "eslint --fix --ext .ts,.js,.vue ./"
   },
   "dependencies": {
@@ -15,6 +38,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.30.4",
     "@typescript-eslint/parser": "^5.30.4",
+    "@types/node": "^18.0.3",
     "@vitejs/plugin-vue": "^2.3.3",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
@@ -29,5 +53,8 @@
     "unplugin-auto-import": "^0.9.2",
     "vite": "^2.9.9",
     "vue-tsc": "^0.34.7"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   }
 }
