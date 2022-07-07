@@ -16,7 +16,7 @@
           v-html="
             emoji.emoji +
             (emoji.skin_tone_support &&
-            Number.parseInt(emoji.skin_tone_support_unicode_version) < 1.1
+            Number.parseInt(emoji.skin_tone_support_unicode_version) < 10
               ? Skin[skin]
               : '')
           "
@@ -32,7 +32,7 @@
           v-html="
             emoji.emoji +
             (emoji.skin_tone_support &&
-            Number.parseInt(emoji.skin_tone_support_unicode_version) < 1.1
+            Number.parseInt(emoji.skin_tone_support_unicode_version) < 10
               ? Skin[skin]
               : '')
           "
@@ -85,12 +85,13 @@ const props = defineProps<{
   optionsName: Emoji.JsonData;
   unicodeVersion: number;
   needLocal: boolean;
+  defaultSelect: string;
 }>();
 const emit = defineEmits(['clickEmoji']);
 const emojiData: Emoji.JsonData = EmojiData;
 const sizeData: Emoji.JsonData = SizeData;
 const themeData: Emoji.JsonData = ThemeData;
-const activeTab = ref('');
+const activeTab = ref('Smileys & Emotion');
 const pollUpEl = ref<HTMLElement>();
 const renderData = filterData(
   emojiData,
@@ -103,7 +104,11 @@ const groupName: string[] = [];
 for (let key in renderData) {
   groupName.push(key);
 }
-activeTab.value = groupName[0];
+if (groupName.includes(props.defaultSelect)) {
+  activeTab.value = props.defaultSelect;
+} else {
+  activeTab.value = groupName[0];
+}
 const changeTab = (tab: string) => {
   activeTab.value = tab;
 };
@@ -131,7 +136,7 @@ const clickEmoji = (emoji: Emoji.EmojiItem) => {
       setItem('emoji-recent', recentData.value);
     }
   }
-  emit('clickEmoji', emoji.emoji + Skin[props.skin]);
+  emit('clickEmoji', emoji);
 };
 //删除所有最近使用过的emoji
 const deleteRecent = () => {
@@ -145,19 +150,32 @@ const changePos = () => {
       pollUpEl.value.style.bottom = 'unset';
       pollUpEl.value.style.top = '50px';
     }
+    //如果检测到左边空间不够 那就移动到右边 如果空间不足则不移动
     if (pollUpEl.value.getBoundingClientRect().left < 0) {
       pollUpEl.value.style.left = '0';
+      pollUpEl.value.style.right = 'unset';
     }
   }
 };
 
 onMounted(() => {
-  changePos();
+  nextTick(() => {
+    changePos();
+  });
   document.addEventListener('scroll', changePos);
   if (pollUpEl.value) {
-    for (let key in sizeData[props.size]) {
-      pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key] + 'px');
+    const customSize = inject<Emoji.CustomSize | null>('customSize', null);
+    if (customSize) {
+      for (let key in sizeData[props.size]) {
+        if (customSize[key]) pollUpEl.value.style.setProperty(`--${key}`, customSize[key] + 'px');
+        else pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key] + 'px');
+      }
+    } else {
+      for (let key in sizeData[props.size]) {
+        pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key] + 'px');
+      }
     }
+
     for (let key in themeData[props.theme]) {
       pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key]);
     }
@@ -169,20 +187,22 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-$fontsize: var(--fontsize);
-$itemsize: var(--itemsize);
+$fontsize: var(--fontSize);
+$itemsize: var(--itemSize);
 $width: var(--width);
-$rowsize: var(--rowsize);
+$height: var(--height);
+$rowsize: var(--rowSize);
 $backgroundcolor: var(--backgroundcolor);
 $hovercolor: var(--hovercolor);
 $activecolor: var(--activecolor);
 $shadowcolor: var(--shadowcolor);
 .pollup {
   width: $width;
-  height: 400px;
+  height: $height;
   position: absolute;
   right: 0;
   bottom: 50px;
+  z-index: 5;
   transition: all ease 0.5s;
   background-color: $backgroundcolor;
   box-shadow: 3px 3px 10px $shadowcolor;
@@ -223,7 +243,7 @@ $shadowcolor: var(--shadowcolor);
   .tab-container {
     position: absolute;
     width: 100%;
-    height: 10%;
+    height: $rowsize;
     overflow: auto;
     bottom: 0;
     display: flex;
