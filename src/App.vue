@@ -29,7 +29,7 @@ const clickEvent = ref('');
           :textArea="true"
           :keep="false"
           size="big"
-          :customSize="{ width: 500, height: 300 }"
+          :customSize="{ width: 500, height: 300, fontSize: 20, itemSize: 20 }"
           v-model="abc"
         />
       </div>
