@@ -3,21 +3,18 @@
         "width":300,
         "height":200,
         "fontSize":14,
-        "itemSize":20,
-        "rowSize":40
+        "itemSize":20
     },
     "mid":{
         "width":500,
         "height":300,
         "fontSize":16,
-        "itemSize":30,
-        "rowSize":50
+        "itemSize":30
     },
     "big":{
         "width":800,
         "height":400,
         "fontSize":20,
-        "itemSize":36,
-        "rowSize":56
+        "itemSize":36
     }
 }

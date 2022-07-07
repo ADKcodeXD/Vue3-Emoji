@@ -187,11 +187,11 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
+$padding: 10px;
 $fontsize: var(--fontSize);
 $itemsize: var(--itemSize);
 $width: var(--width);
 $height: var(--height);
-$rowsize: var(--rowSize);
 $backgroundcolor: var(--backgroundcolor);
 $hovercolor: var(--hovercolor);
 $activecolor: var(--activecolor);
@@ -221,15 +221,15 @@ $shadowcolor: var(--shadowcolor);
   }
   .emoji-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, $rowsize);
-    grid-template-rows: repeat(auto-fill, $rowsize);
+    grid-template-columns: repeat(auto-fill, calc(var(--itemSize) + 2 * $padding));
+    grid-template-rows: repeat(auto-fill, calc(var(--itemSize) + 2 * $padding));
     justify-content: space-between;
     overflow-y: auto;
     height: 90%;
     &-item {
       width: $itemsize;
       height: $itemsize;
-      padding: 10px;
+      padding: $padding;
       font-size: $fontsize;
       display: flex;
       justify-content: center;
@@ -243,14 +243,14 @@ $shadowcolor: var(--shadowcolor);
   .tab-container {
     position: absolute;
     width: 100%;
-    height: $rowsize;
+    height: calc(var(--itemsize) + 2 * $itemsize);
     overflow: auto;
     bottom: 0;
     display: flex;
     background-color: $backgroundcolor;
     box-shadow: 3px 3px 10px $shadowcolor;
     .tab-item {
-      padding: 15px;
+      padding: $padding;
       font-size: $fontsize;
       display: flex;
       justify-content: center;

@@ -27,7 +27,6 @@ declare namespace Emoji {
     [width: string]: number; // emoji的宽度
     [height: string]: number; // height is optional
     [fontSize: string]: number; //emoji的大小
-    [rowSize: string]: number; // grid每一格子的大小
     [itemSize: string]: number; //每一项的大小
   }
 }
