@@ -1,21 +1,23 @@
 {
     "small":{
         "width":300,
-        "fontsize":14,
-        "itemsize":20,
-        "rowsize":40
+        "height":200,
+        "fontSize":14,
+        "itemSize":20,
+        "rowSize":40
     },
     "mid":{
         "width":500,
-        "fontsize":16,
-        "itemsize":30,
-        "rowsize":50
-        
+        "height":300,
+        "fontSize":16,
+        "itemSize":30,
+        "rowSize":50
     },
     "big":{
         "width":800,
-        "fontsize":20,
-        "itemsize":36,
-        "rowsize":56
+        "height":400,
+        "fontSize":20,
+        "itemSize":36,
+        "rowSize":56
     }
 }
