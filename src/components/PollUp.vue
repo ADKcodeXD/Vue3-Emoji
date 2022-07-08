@@ -210,6 +210,7 @@ $shadowcolor: var(--shadowcolor);
   overflow: hidden;
   .tab-name {
     font-size: $fontsize;
+    height: $itemsize;
     margin: 5px 10px;
     display: flex;
     justify-content: space-between;
@@ -222,10 +223,13 @@ $shadowcolor: var(--shadowcolor);
   .emoji-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, calc(var(--itemSize) + 2 * $padding));
-    grid-template-rows: repeat(auto-fill, calc(var(--itemSize) + 2 * $padding));
+    grid-auto-flow: auto;
     justify-content: space-between;
+    align-items: center;
+    max-height: calc(
+      var(--height) - $itemsize * 2 - 2 * $padding - 10px
+    ); //计算出最大高度 根据tabname以及tab
     overflow-y: auto;
-    height: 90%;
     &-item {
       width: $itemsize;
       height: $itemsize;
@@ -243,7 +247,7 @@ $shadowcolor: var(--shadowcolor);
   .tab-container {
     position: absolute;
     width: 100%;
-    height: calc(var(--itemsize) + 2 * $itemsize);
+    height: calc(var(--itemsize) + 2 * $padding);
     overflow: auto;
     bottom: 0;
     display: flex;
