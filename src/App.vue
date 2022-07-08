@@ -15,6 +15,10 @@ const clickEvent = ref('');
 </script>
 
 <template>
+  <div style="display: flex; width: 50px">
+    <V3Emoji />
+    <V3Emoji />
+  </div>
   <div id="app">
     <div>
       <h1>输入你的emoji</h1>
