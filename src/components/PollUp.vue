@@ -13,13 +13,7 @@
           :key="index"
           @click="clickEmoji(emoji)"
           :title="emoji.name"
-          v-html="
-            emoji.emoji +
-            (emoji.skin_tone_support &&
-            Number.parseInt(emoji.skin_tone_support_unicode_version) < 10
-              ? Skin[skin]
-              : '')
-          "
+          v-html="emojiSkin(emoji)"
         ></div>
       </template>
       <template v-else>
@@ -29,13 +23,7 @@
           :key="index"
           @click="clickEmoji(emoji)"
           :title="emoji.name"
-          v-html="
-            emoji.emoji +
-            (emoji.skin_tone_support &&
-            Number.parseInt(emoji.skin_tone_support_unicode_version) < 10
-              ? Skin[skin]
-              : '')
-          "
+          v-html="emojiSkin(emoji)"
         ></div>
       </template>
     </div>
@@ -57,7 +45,7 @@
         @click="changeTab(tab)"
         :class="{ active: tab === activeTab }"
       >
-        {{ renderData[tab][0].emoji }}
+        {{ customIcon && customIcon[tab] ? customIcon[tab] : renderData[tab][0].emoji }}
       </div>
     </div>
   </div>
@@ -69,6 +57,7 @@ import SizeData from '../assets/options/SizeData.json';
 import ThemeData from '../assets/options/ThemeData.json';
 import { filterData } from '../utils/emojiFilter';
 import { getItem, removeItem, setItem } from '../utils/storage';
+import { saveToLocal } from '../utils/commonUtils';
 const Skin: Emoji.JsonData = {
   dark: '&#127999;',
   middark: '&#127998;',
@@ -81,12 +70,15 @@ const props = defineProps<{
   size: string;
   theme: 'dark' | 'default';
   skin: 'dark' | 'middark' | 'mid' | 'midlight' | 'light' | 'none';
-  disableGroup: string[];
-  optionsName: Emoji.JsonData;
-  unicodeVersion: number;
-  needLocal: boolean;
-  defaultSelect: string;
+  disableGroup?: string[];
+  optionsName?: Emoji.JsonData;
+  unicodeVersion?: number;
+  needLocal?: boolean;
+  defaultSelect?: string;
   customSize?: Emoji.CustomSize;
+  customIcon?: Emoji.CustomIcon;
+  customTheme?: Emoji.CustomTheme;
+  customTab?: Emoji.JsonData;
 }>();
 const emit = defineEmits(['clickEmoji']);
 const emojiData: Emoji.JsonData = EmojiData;
@@ -98,51 +90,55 @@ const renderData = filterData(
   emojiData,
   props.optionsName,
   props.unicodeVersion,
-  props.disableGroup
+  props.disableGroup,
+  props.customTab
 );
 const recentData = ref<Emoji.ObjectItem>(getItem('emoji-recent') || null);
-// 初始化最近使用的数据
-if (recentData.value === null && props.needLocal) {
-  recentData.value = {
-    recent: []
-  };
-  setItem('emoji-recent', recentData.value);
-}
 const groupName: string[] = [];
-for (let key in renderData) {
-  groupName.push(key);
-}
-if (groupName.includes(props.defaultSelect) || props.defaultSelect === 'recent') {
-  activeTab.value = props.defaultSelect;
-} else {
-  activeTab.value = groupName[0];
-}
+//过滤皮肤选项
+const emojiSkin = (emoji: Emoji.EmojiItem) => {
+  if (!emoji.skin_tone_support) return emoji.emoji;
+  else {
+    if (!emoji.skin_tone_support_unicode_version) {
+      return emoji.emoji;
+    } else {
+      const skin =
+        Number.parseInt(emoji.skin_tone_support_unicode_version) < 10 ? Skin[props.skin] : '';
+      return `${emoji.emoji}${skin}`;
+    }
+  }
+};
+// 初始化pollup所需的数据
+const initPollup = () => {
+  for (let key in renderData) {
+    groupName.push(key);
+  }
+  // 初始化最近使用的数据
+  if (recentData.value === null && props.needLocal) {
+    recentData.value = {
+      recent: []
+    };
+    setItem('emoji-recent', recentData.value);
+  }
+  if (
+    props.defaultSelect &&
+    (groupName.includes(props.defaultSelect) ||
+      (props.defaultSelect === 'recent' && props.needLocal))
+  ) {
+    activeTab.value = props.defaultSelect;
+  } else {
+    activeTab.value = groupName[0];
+  }
+};
+// 切换tab
 const changeTab = (tab: string) => {
   activeTab.value = tab;
 };
+// 点击表情
 const clickEmoji = (emoji: Emoji.EmojiItem) => {
   //增加一个最近使用的选项 来自本地存储
   if (props.needLocal) {
-    if (!recentData.value) {
-      setItem('emoji-recent', { recent: [emoji] });
-    } else {
-      if (recentData.value['recent'].length < 50) {
-        const index = recentData.value['recent'].findIndex(item => {
-          return item.emoji === emoji.emoji;
-        });
-        if (index === -1) {
-          recentData.value['recent'].unshift(emoji);
-        } else {
-          recentData.value['recent'].splice(index, 1);
-          recentData.value['recent'].unshift(emoji);
-        }
-      } else {
-        //大于50的情况
-        recentData.value['recent'].unshift(emoji);
-        recentData.value['recent'].pop();
-      }
-      setItem('emoji-recent', recentData.value);
-    }
+    saveToLocal(recentData, emoji);
   }
   emit('clickEmoji', emoji);
 };
@@ -151,6 +147,7 @@ const deleteRecent = () => {
   recentData.value['recent'] = [];
   removeItem('emoji-recent');
 };
+// 改变位置
 const changePos = () => {
   if (pollUpEl.value) {
     //这里就是打开弹出层 如果检测到上方空间不够 那就移动到下面
@@ -179,21 +176,35 @@ const setSize = () => {
         pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key]);
       }
     }
-    for (let key in themeData[props.theme]) {
-      pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key]);
+  }
+};
+// 设置主题
+const setTheme = () => {
+  if (pollUpEl.value) {
+    if (props.customTheme) {
+      for (let key in themeData[props.theme]) {
+        if (props.customTheme[key])
+          pollUpEl.value.style.setProperty(`--${key}`, props.customTheme[key]);
+        else pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key]);
+      }
+    } else {
+      for (let key in themeData[props.theme]) {
+        pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key]);
+      }
     }
   }
 };
 // props改变了 就进行重新渲染
+initPollup();
 watchEffect(() => {
   setSize();
+  setTheme();
 });
 onMounted(() => {
-  nextTick(() => {
-    changePos();
-  });
-  document.addEventListener('scroll', changePos);
   setSize();
+  setTheme();
+  changePos();
+  document.addEventListener('scroll', changePos);
 });
 onBeforeUnmount(() => {
   document.removeEventListener('scroll', changePos);
@@ -206,10 +217,11 @@ $fontsize: var(--fontSize);
 $itemsize: var(--itemSize);
 $width: var(--width);
 $height: var(--height);
-$backgroundcolor: var(--backgroundcolor);
-$hovercolor: var(--hovercolor);
-$activecolor: var(--activecolor);
-$shadowcolor: var(--shadowcolor);
+$backgroundColor: var(--backgroundColor);
+$hoverColor: var(--hoverColor);
+$activeColor: var(--activeColor);
+$shadowColor: var(--shadowColor);
+$fontColor: var(--fontColor);
 .pollup {
   width: $width;
   height: $height;
@@ -218,8 +230,9 @@ $shadowcolor: var(--shadowcolor);
   bottom: 50px;
   z-index: 5;
   transition: all ease 0.5s;
-  background-color: $backgroundcolor;
-  box-shadow: 3px 3px 10px $shadowcolor;
+  color: $fontColor;
+  background-color: $backgroundColor;
+  box-shadow: 3px 3px 10px $shadowColor;
   border-radius: 15px;
   overflow: hidden;
   .tab-name {
@@ -254,7 +267,7 @@ $shadowcolor: var(--shadowcolor);
       align-items: center;
       cursor: pointer;
       &:hover {
-        background-color: $hovercolor;
+        background-color: $hoverColor;
       }
     }
   }
@@ -265,8 +278,8 @@ $shadowcolor: var(--shadowcolor);
     overflow: auto;
     bottom: 0;
     display: flex;
-    background-color: $backgroundcolor;
-    box-shadow: 3px 3px 10px $shadowcolor;
+    background-color: $backgroundColor;
+    box-shadow: 3px 3px 10px $shadowColor;
     .tab-item {
       padding: $padding;
       font-size: $fontsize;
@@ -275,7 +288,7 @@ $shadowcolor: var(--shadowcolor);
       align-items: center;
       cursor: pointer;
       &.active {
-        background-color: $activecolor;
+        background-color: $activeColor;
       }
     }
   }

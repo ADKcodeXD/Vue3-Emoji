@@ -19,6 +19,9 @@
         :defaultSelect="defaultSelect"
         :fulldata="fulldata"
         :customSize="customSize"
+        :customIcon="customIcon"
+        :customTab="customTab"
+        :customTheme="customTheme"
       />
     </div>
     <div class="emoji-textarea" v-else>
@@ -47,6 +50,9 @@
           :need-local="recent"
           :defaultSelect="defaultSelect"
           :customSize="customSize"
+          :customIcon="customIcon"
+          :customTheme="customTheme"
+          :customTab="customTab"
         />
       </div>
     </div>
@@ -61,7 +67,6 @@ const props = withDefaults(
     size?: 'mid' | 'small' | 'big'; //大小选项
     disableGroup?: string[]; //用于禁用部分组的 如果不需要自带的几个组 那就传进来
     unicodeVersion?: number; //用于unicode版本选择 部分设备无法兼容高版本的emojiunicode选项
-    customTab?: Emoji.CustomItem[]; //支持自定义选择部分emoji单独设置一个板块 TODO
     optionsName?: Emoji.JsonData; //用于重置板块名字
     theme?: 'dark' | 'default'; //支持暗黑或者亮色主题
     skin?: 'dark' | 'middark' | 'mid' | 'midlight' | 'light' | 'none'; //用于设置emoji的肤色设置
@@ -70,9 +75,12 @@ const props = withDefaults(
     fulldata?: boolean; //是否将整个emoji发送出去
     textArea?: boolean; //是否需要文本框
     textAreaOption?: Emoji.TextAreaOptions; //文本框的配置项
+    keep?: boolean; //是否需要保持上次浏览的位置
     modelValue?: string; //文本框的值
     customSize?: Emoji.CustomSize; //自定义大小
-    keep?: boolean; //是否需要保持上次浏览的位置
+    customTheme?: Emoji.CustomTheme; //自定义主题
+    customIcon?: Emoji.CustomIcon; //自定义图标
+    customTab?: Emoji.ObjectItem; //支持自定义选择部分emoji单独设置一个板块
   }>(),
   {
     size: 'mid',
@@ -96,9 +104,6 @@ const props = withDefaults(
         cols: 30,
         resize: 'none'
       };
-    },
-    customSize: () => {
-      return {};
     }
   }
 );
