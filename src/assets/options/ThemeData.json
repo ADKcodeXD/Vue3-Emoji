@@ -1,14 +1,16 @@
 {
     "dark":{
-        "backgroundcolor":"#000",
-        "hovercolor":"#909090",
-        "activecolor":"#909090",
-        "shadowcolor":"rgba(255,255,255,.2)"
+        "backgroundColor":"#000",
+        "fontColor":"#fff",
+        "hoverColor":"#909090",
+        "activeColor":"#909090",
+        "shadowColor":"rgba(255,255,255,.2)"
     },
     "default":{
-        "backgroundcolor":"#fff",
-        "hovercolor":"#e7e7e7",
-        "activecolor":"#b6b6b6",
-        "shadowcolor":"rgba(0,0,0,.4)"
+        "backgroundColor":"#fff",
+        "fontColor":"#000",
+        "hoverColor":"#e7e7e7",
+        "activeColor":"#b6b6b6",
+        "shadowColor":"rgba(0,0,0,.4)"
     }
 }
