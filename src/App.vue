@@ -7,17 +7,94 @@ const clickEmoji = (val: any) => {
 };
 const optionsName = {
   'Smileys & Emotion': '笑脸&表情',
-  'Food & Drink': '食物&饮料'
+  'Food & Drink': '食物&饮料',
+  'Animals & Nature': '动物&自然',
+  'Travel & Places': '旅行&地点',
+  'People & Body': '人物&身体',
+  Objects: '物品',
+  Symbols: '符号',
+  Flags: '旗帜',
+  Activities: '活动'
 };
 const disableGroup = ['食物&饮料'];
 const abc = ref('这里是双向绑定的值');
 const clickEvent = ref('');
+const customIcon: Emoji.JsonData = {
+  'Smileys & Emotion': '😚',
+  'Food & Drink': '🍔',
+  'Animals & Nature': '🐶',
+  Activities: '🎉',
+  'Travel & Places': '🚗',
+  Objects: '💰'
+};
+const customTab: Emoji.ObjectItem = {
+  我的自定义板块: [
+    {
+      emoji: '🍔',
+      name: '汉堡包'
+    },
+    {
+      emoji: '🍟',
+      name: '薯条'
+    }
+  ]
+};
+const customSize: Emoji.CustomSize = {
+  width: '300px',
+  height: '20rem',
+  fontSize: '1rem',
+  itemSize: '50px'
+};
+const customTheme: Emoji.CustomTheme = {
+  hoverColor: '#ff5500',
+  activeColor: '#99ff77',
+  shadowColor: 'rgba(255,255,0,0.5)',
+  backgroundColor: '#000000',
+  fontColor: '#ffffff'
+};
+const disableGroup2 = [
+  'Smileys & Emotion',
+  'Food & Drink',
+  'Animals & Nature',
+  'Travel & Places',
+  'People & Body',
+  'Objects',
+  'Symbols',
+  'Flags',
+  'Activities'
+];
 </script>
 
 <template>
-  <div style="display: flex; width: 50px">
-    <V3Emoji />
-    <V3Emoji />
+  <div class="container">
+    <div class="test">
+      <V3Emoji :customIcon="customIcon" size="small" default-select="recent" />
+      <p>small</p>
+    </div>
+    <div class="test">
+      <V3Emoji :customIcon="customIcon" size="mid" default-select="Objects" />
+      <p>mid</p>
+    </div>
+    <div class="test">
+      <V3Emoji size="big" />
+      <p>big</p>
+    </div>
+    <div class="test">
+      <V3Emoji size="big" :custom-size="customSize" />
+      <p>customSize</p>
+    </div>
+    <div class="test">
+      <V3Emoji size="mid" :custom-theme="customTheme" />
+      <p>customTheme</p>
+    </div>
+    <div class="test">
+      <V3Emoji size="mid" :custom-icon="customIcon" />
+      <p>customIcon</p>
+    </div>
+    <div class="test">
+      <V3Emoji size="mid" :custom-tab="customTab" :disable-group="disableGroup2" />
+      <p>customTab</p>
+    </div>
   </div>
   <div id="app">
     <div>
@@ -28,12 +105,13 @@ const clickEvent = ref('');
           @click-emoji="clickEmoji"
           :options-name="optionsName"
           :recent="true"
-          default-select="Animals & Nature"
+          default-select="我的自定义板块"
           :fulldata="true"
           :textArea="true"
-          :keep="false"
-          size="big"
-          :customSize="{ width: 500, height: 300, fontSize: 20, itemSize: 20 }"
+          :keep="true"
+          :customIcon="customIcon"
+          size="small"
+          :customTab="customTab"
           v-model="abc"
         />
       </div>
@@ -56,5 +134,17 @@ const clickEvent = ref('');
 .text-area {
   width: 800px;
   height: 300px;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  flex-wrap: wrap;
+  .test {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 }
 </style>
