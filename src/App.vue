@@ -40,17 +40,17 @@ const customTab: Emoji.ObjectItem = {
   ]
 };
 const customSize: Emoji.CustomSize = {
-  width: '300px',
-  height: '20rem',
-  fontSize: '1rem',
-  itemSize: '50px'
+  'V3Emoji-width': '300px',
+  'V3Emoji-height': '20rem',
+  'V3Emoji-fontSize': '1rem',
+  'V3Emoji-itemSize': '50px'
 };
 const customTheme: Emoji.CustomTheme = {
-  hoverColor: '#ff5500',
-  activeColor: '#99ff77',
-  shadowColor: 'rgba(255,255,0,0.5)',
-  backgroundColor: '#000000',
-  fontColor: '#ffffff'
+  'V3Emoji-hoverColor': '#ff5500',
+  'V3Emoji-activeColor': '#99ff77',
+  'V3Emoji-shadowColor': 'rgba(255,255,0,0.5)',
+  'V3Emoji-backgroundColor': '#000000',
+  'V3Emoji-fontColor': '#ffffff'
 };
 const disableGroup2 = [
   'Smileys & Emotion',
