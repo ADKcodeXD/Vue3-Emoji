@@ -18,6 +18,7 @@
         :need-local="recent"
         :defaultSelect="defaultSelect"
         :fulldata="fulldata"
+        :customSize="customSize"
       />
     </div>
     <div class="emoji-textarea" v-else>
@@ -45,6 +46,7 @@
           :unicode-version="unicodeVersion"
           :need-local="recent"
           :defaultSelect="defaultSelect"
+          :customSize="customSize"
         />
       </div>
     </div>
@@ -94,12 +96,12 @@ const props = withDefaults(
         cols: 30,
         resize: 'none'
       };
+    },
+    customSize: () => {
+      return {};
     }
   }
 );
-if (props.customSize) {
-  provide('customSize', props.customSize);
-}
 const textValue = ref(props.modelValue);
 const EmojiEl = ref();
 const textarea = ref();
@@ -168,7 +170,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .emoji-container {
   position: relative;
   display: inline-flex;

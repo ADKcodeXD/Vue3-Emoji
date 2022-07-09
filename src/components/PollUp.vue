@@ -86,6 +86,7 @@ const props = defineProps<{
   unicodeVersion: number;
   needLocal: boolean;
   defaultSelect: string;
+  customSize?: Emoji.CustomSize;
 }>();
 const emit = defineEmits(['clickEmoji']);
 const emojiData: Emoji.JsonData = EmojiData;
@@ -99,12 +100,19 @@ const renderData = filterData(
   props.unicodeVersion,
   props.disableGroup
 );
-const recentData = ref<Emoji.ObjectItem>(getItem('emoji-recent'));
+const recentData = ref<Emoji.ObjectItem>(getItem('emoji-recent') || null);
+// 初始化最近使用的数据
+if (recentData.value === null && props.needLocal) {
+  recentData.value = {
+    recent: []
+  };
+  setItem('emoji-recent', recentData.value);
+}
 const groupName: string[] = [];
 for (let key in renderData) {
   groupName.push(key);
 }
-if (groupName.includes(props.defaultSelect)) {
+if (groupName.includes(props.defaultSelect) || props.defaultSelect === 'recent') {
   activeTab.value = props.defaultSelect;
 } else {
   activeTab.value = groupName[0];
@@ -157,36 +165,42 @@ const changePos = () => {
     }
   }
 };
-
+//设置pollup弹出框的大小
+const setSize = () => {
+  if (pollUpEl.value) {
+    if (props.customSize) {
+      for (let key in sizeData[props.size]) {
+        if (props.customSize[key])
+          pollUpEl.value.style.setProperty(`--${key}`, props.customSize[key]);
+        else pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key]);
+      }
+    } else {
+      for (let key in sizeData[props.size]) {
+        pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key]);
+      }
+    }
+    for (let key in themeData[props.theme]) {
+      pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key]);
+    }
+  }
+};
+// props改变了 就进行重新渲染
+watchEffect(() => {
+  setSize();
+});
 onMounted(() => {
   nextTick(() => {
     changePos();
   });
   document.addEventListener('scroll', changePos);
-  if (pollUpEl.value) {
-    const customSize = inject<Emoji.CustomSize | null>('customSize', null);
-    if (customSize) {
-      for (let key in sizeData[props.size]) {
-        if (customSize[key]) pollUpEl.value.style.setProperty(`--${key}`, customSize[key] + 'px');
-        else pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key] + 'px');
-      }
-    } else {
-      for (let key in sizeData[props.size]) {
-        pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key] + 'px');
-      }
-    }
-
-    for (let key in themeData[props.theme]) {
-      pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key]);
-    }
-  }
+  setSize();
 });
 onBeforeUnmount(() => {
   document.removeEventListener('scroll', changePos);
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $padding: 10px;
 $fontsize: var(--fontSize);
 $itemsize: var(--itemSize);
