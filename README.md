@@ -15,7 +15,10 @@
 - 支持了emoji全量数据以及部分数据的选择
 - 支持两种不同的主题
 - 支持最近使用表情选项卡
-- 支持保持模式 可以不重复渲染
+- 支持keep模式 可以不重复渲染
+- 支持自定义选项卡 你可以挑选自己喜欢的emoji并放入选项卡
+- 支持自定义size 你可以不使用我定义的尺寸，按照自己所需进行尺寸的调整
+- 支持自定义主题 你可以通过传入自定义的样式来设置相应的颜色和风格
 
 ## 启动本项目/start this project
 
@@ -109,6 +112,8 @@ import 'vue3-emoji/dist/style.css'
 <template>
   <div>
       <V3Emoji default-select="Animals & Nature" />
+      <!--你可以指定最近使用表情的tab作为默认tab-->
+      <V3Emoji default-select="recenet" :recent="true" />
   </div>
 </template>
 ```
@@ -158,13 +163,20 @@ import 'vue3-emoji/dist/style.css'
 
 #### optionsName
 
-当然 你可以通过传入**optionsName**来自定义各个板块的名字
+你可以通过传入**optionsName**来自定义各个板块的名字
 
  ```vue
 <script setup>
 const optionsName = {
   'Smileys & Emotion': '笑脸&表情',
-  'Food & Drink': '食物&饮料'
+  'Food & Drink': '食物&饮料',
+  'Animals & Nature': '动物&自然',
+  'Travel & Places': '旅行&地点',
+  'People & Body': '人物&身体',
+  Objects: '物品',
+  Symbols: '符号',
+  Flags: '旗帜',
+  Activities: '活动'
 };
 </script>
 <template>
@@ -194,7 +206,7 @@ const disableGroup = ['食物&饮料'];
 </script>
 
 <template>
-	<V3Emoji :disable-group="optionsName" :options-name="optionsName" />
+	<V3Emoji :disable-group="disableGroup" :options-name="optionsName" />
 </template>
 ```
 
@@ -202,22 +214,105 @@ const disableGroup = ['食物&饮料'];
 
 **如果你需要在使用完表情框后保持原本打开的状态，可以指定keep来开启保持状态**
 
+<!--bug:指定了keep后 无法在第一次打开时检测位置并调整位置-->
+
 ```vue
 <V3Emoji
-          :keep="false"
+          :keep="true"
         />
 ```
 
-#### customSize
+### customSize
 
 **利用customSize 你可以自定义表情框的大小**
 
 ```vue
-<V3Emoji
-          :disable-group="disableGroup"
-          :customSize="{ width: 500, height: 300, fontSize: 20, itemSize: 20 }"
-          v-model="abc"
-        />
+<script setup lang="ts">
+const customSize= {
+  'V3Emoji-width': '300px',
+  'V3Emoji-height': '20rem',
+  'V3Emoji-fontSize': '1rem',
+  'V3Emoji-itemSize': '50px'
+};
+</script>
+<template>
+<div class="test">
+    <V3Emoji size="big" :custom-size="customSize" />
+    <p>customSize</p>
+</div>
+</template>
+```
+
+### customTab
+
+如果你需要自己自定义一些emoji并且将其放到新的板块中，你可以这么做
+
+```vue
+<script setup lang="ts">
+const customTab= {
+  我的自定义板块: [
+    {
+      emoji: '🍔',
+      name: '汉堡包'
+    },
+    {
+      emoji: '🍟',
+      name: '薯条'
+    }
+  ]
+};
+</script>
+<template>
+<div class="test">
+    <V3Emoji  :customTab="customTab" default-select="我的自定义板块" />
+    <p>customTab</p>
+</div>
+</template>
+```
+
+### customIcon
+
+本组件会默认读取数据中的第一个emoji作为默认的icon 你可以通过customIcon来定义下方选择的Icon
+
+```vue
+<script setup lang="ts">
+const customIcon = {
+  'Smileys & Emotion': '😚',
+  'Food & Drink': '🍔',
+  'Animals & Nature': '🐶',
+  Activities: '🎉',
+  'Travel & Places': '🚗',
+  Objects: '💰'
+};
+</script>
+<template>
+<div class="test">
+    <V3Emoji  :customIcon="customIcon"  />
+    <p>customIcon</p>
+</div>
+</template>
+```
+
+### customTheme
+
+本组件提供了自定义的主题功能，你可以自定义主题色
+
+```vue
+<script setup lang="ts">
+const customTheme= {
+  'V3Emoji-hoverColor': '#ff5500',
+  'V3Emoji-activeColor': '#99ff77',
+  'V3Emoji-shadowColor': 'rgba(255,255,0,0.5)',
+  'V3Emoji-backgroundColor': '#000000',
+  'V3Emoji-fontColor': '#ffffff'
+};
+</script>
+<template>
+<div class="test">
+    <V3Emoji size="mid" :custom-theme="customTheme" />
+    <p>customTheme</p>
+</div>
+</template>
 ```
 
 ### 文本框集成使用
@@ -264,16 +359,19 @@ const abc = ref('这里是双向绑定的值');
 |    v-model     |        string         |         ‘’          |          可以进行数据的双向绑定（需要开启textArea）          |
 |      size      | ‘mid’\|'small'\|'big' |         mid         |                       用于调整整体大小                       |
 |     theme      |   'dark'\|'default'   |       default       |                 主题切换 支持亮色和暗黑主题                  |
-|    fulldata    |        boolean        |        false        | 如果指定为true 那么clickEmoji事件将会传出一个EmojiItem类型的对象 |
-| defaultSelect  |        string         | 'Smileys & Emotion' |     默认选中板块，注意：如果指定了新名字，需要传入新名字     |
-|    textArea    |        boolean        |        false        |                      开启文本框功能选项                      |
-| textAreaOption | Emoji.TextAreaOptions |     见类型定义      |                 你可以定义textarea的一些选项                 |
-|      keep      |        boolean        |        false        |         如果指定为true 那么表情框关闭将不会销毁组件          |
-|   customSize   |   Emoji.CustomSize    |     见类型定义      | 如果指定了相应的自定义大小，那么会将pollup表情选择框的大小重置，没有指定的将使用相应size的默认值 |
-| unicodeVersion |        number         |         11          |         在某些设备上可能不能兼容高版本的emojiunicode         |
-|     recent     |        boolean        |        false        |                    开启最近使用emoji功能                     |
 |  optionsName   |           -           |         {}          |                       翻译原有板块名字                       |
 |  disableGroup  |       string[]        |         []          |                         禁用某些板块                         |
+| defaultSelect  |        string         | 'Smileys & Emotion' |     默认选中板块，注意：如果指定了新名字，需要传入新名字     |
+|     recent     |        boolean        |        false        |                    开启最近使用emoji功能                     |
+|    fulldata    |        boolean        |        false        | 如果指定为true 那么clickEmoji事件将会传出一个EmojiItem类型的对象 |
+|      keep      |        boolean        |        false        |         如果指定为true 那么表情框关闭将不会销毁组件          |
+|    textArea    |        boolean        |        false        |                      开启文本框功能选项                      |
+| textAreaOption | Emoji.TextAreaOptions |     见类型定义      |                 你可以定义textarea的一些选项                 |
+|   customSize   |   Emoji.CustomSize    |     见类型定义      | 如果指定了相应的自定义大小，那么会将pollup表情选择框的大小重置，没有指定的将使用相应size的默认值 |
+|  customTheme   |   Emoji.CustomTheme   |     见类型定义      | 自定义主题颜色，支持五个选项的配置，没有指定的依旧会使用指定的theme的默认值 |
+|   customIcon   |   Emoji.CustomIcon    |     见类型定义      |                    自定义tab切换栏的显示                     |
+|   customTab    |   Emoji.ObjectItem    |     见类型定义      | 你可以传入一个对象来指定一个新的选项卡，这个选项卡内可以放置你需要的emoji |
+| unicodeVersion |        number         |         11          |         在某些设备上可能不能兼容高版本的emojiunicode         |
 |     *skin*     |           -           |        none         |                      暂时无法很好的支持                      |
 
 ## 事件/Events
@@ -291,10 +389,10 @@ declare namespace Emoji {
   interface EmojiItem {
     emoji: string;
     name: string;
-    skin_tone_support: boolean;
-    unicode_version: string;
-    emoji_version: string;
-    skin_tone_support_unicode_version: string;
+    skin_tone_support?: boolean;
+    unicode_version?: string;
+    emoji_version?: string;
+    skin_tone_support_unicode_version?: string;
   }
   interface ObjectItem {
     [key: string]: EmojiItem[];
@@ -313,39 +411,91 @@ declare namespace Emoji {
     resize?: StyleValue;
   }
   interface CustomSize {
-    [width: string]: number; // emoji的宽度
-    [height: string]: number; // height is optional
-    [fontSize: string]: number; //emoji的大小
-    [itemSize: string]: number; //每一项的大小
+    [key: string]: string;
+    'V3Emoji-width': string; // emoji的宽度
+    'V3Emoji-height': string; // height is optional
+    'V3Emoji-fontSize': string; //emoji的大小
+    'V3Emoji-itemSize': string; //每一项的大小
+  }
+  interface CustomIcon {
+    [key: string]: string;
+  }
+  interface CustomTheme {
+    [key: string]: string;
+    'V3Emoji-backgroundColor': string;
+    'V3Emoji-hoverColor': string;
+    'V3Emoji-activeColor': string;
+    'V3Emoji-shadowColor': string;
   }
 }
 ```
 
-```json
+```
 //SizeData.json
 {
-    "small":{
-        "width":300,
-        "height":200,
-        "fontSize":14,
-        "itemSize":20,
+    "small": {
+        "V3Emoji-width": "300px",
+        "V3Emoji-height": "200px",
+        "V3Emoji-fontSize": "14px",
+        "V3Emoji-itemSize": "20px"
     },
-    "mid":{
-        "width":500,
-        "height":300,
-        "fontSize":16,
-        "itemSize":30,
+    "mid": {
+        "V3Emoji-width": "500px",
+        "V3Emoji-height": "300px",
+        "V3Emoji-fontSize": "16px",
+        "V3Emoji-itemSize": "30px"
     },
-    "big":{
-        "width":800,
-        "height":400,
-        "fontSize":20,
-        "itemSize":36,
+    "big": {
+        "V3Emoji-width": "800px",
+        "V3Emoji-height": "400px",
+        "V3Emoji-fontSize": "20px",
+        "V3Emoji-itemSize": "36px"
+    }
+}
+//ThemeData.json
+{
+    "dark":{
+        "V3Emoji-backgroundColor":"#000",
+        "V3Emoji-fontColor":"#fff",
+        "V3Emoji-hoverColor":"#909090",
+        "V3Emoji-activeColor":"#909090",
+        "V3Emoji-shadowColor":"rgba(255,255,255,.2)"
+    },
+    "default":{
+        "V3Emoji-backgroundColor":"#fff",
+        "V3Emoji-fontColor":"#000",
+        "V3Emoji-hoverColor":"#e7e7e7",
+        "V3Emoji-activeColor":"#b6b6b6",
+        "V3Emoji-shadowColor":"rgba(0,0,0,.4)"
     }
 }
 ```
 
+## 参考设置/example options
 
+- 通过以下设置将所有选项卡变成中文
+
+  ```vue
+  <script>
+      const optionsName = {
+          'Smileys & Emotion': '笑脸&表情',
+          'Food & Drink': '食物&饮料',
+          'Animals & Nature': '动物&自然',
+          'Travel & Places': '旅行&地点',
+          'People & Body': '人物&身体',
+          Objects: '物品',
+          Symbols: '符号',
+          Flags: '旗帜',
+          Activities: '活动'
+      };
+  </script>
+  
+  <template>
+  	<V3Emoji :options-name="optionsName"/>
+  </template>
+  ```
+
+  
 
 ## 许可/Licence
 
