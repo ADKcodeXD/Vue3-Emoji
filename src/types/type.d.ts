@@ -24,10 +24,10 @@ declare namespace Emoji {
     resize?: StyleValue;
   }
   interface CustomSize {
-    [width: string]: number; // emoji的宽度
-    [height: string]: number; // height is optional
-    [fontSize: string]: number; //emoji的大小
-    [itemSize: string]: number; //每一项的大小
+    [width: string]: string; // emoji的宽度
+    [height: string]: string; // height is optional
+    [fontSize: string]: string; //emoji的大小
+    [itemSize: string]: string; //每一项的大小
   }
 }
 declare module 'vue3-emoji';

@@ -1,20 +1,20 @@
 {
-    "small":{
-        "width":300,
-        "height":200,
-        "fontSize":14,
-        "itemSize":20
+    "small": {
+        "width": "300px",
+        "height": "200px",
+        "fontSize": "14px",
+        "itemSize": "20px"
     },
-    "mid":{
-        "width":500,
-        "height":300,
-        "fontSize":16,
-        "itemSize":30
+    "mid": {
+        "width": "500px",
+        "height": "300px",
+        "fontSize": "16px",
+        "itemSize": "30px"
     },
-    "big":{
-        "width":800,
-        "height":400,
-        "fontSize":20,
-        "itemSize":36
+    "big": {
+        "width": "800px",
+        "height": "400px",
+        "fontSize": "20px",
+        "itemSize": "36px"
     }
 }
