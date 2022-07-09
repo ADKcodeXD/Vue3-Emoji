@@ -24,20 +24,21 @@ declare namespace Emoji {
     resize?: StyleValue;
   }
   interface CustomSize {
-    [width: string]: string; // emoji的宽度
-    [height: string]: string; // height is optional
-    [fontSize: string]: string; //emoji的大小
-    [itemSize: string]: string; //每一项的大小
+    [key: string]: string;
+    'V3Emoji-width': string; // emoji的宽度
+    'V3Emoji-height': string; // height is optional
+    'V3Emoji-fontSize': string; //emoji的大小
+    'V3Emoji-itemSize': string; //每一项的大小
   }
   interface CustomIcon {
     [key: string]: string;
   }
   interface CustomTheme {
     [key: string]: string;
-    backgroundColor: string;
-    hoverColor: string;
-    activeColor: string;
-    shadowColor: string;
+    'V3Emoji-backgroundColor': string;
+    'V3Emoji-hoverColor': string;
+    'V3Emoji-activeColor': string;
+    'V3Emoji-shadowColor': string;
   }
 }
 declare module 'vue3-emoji';

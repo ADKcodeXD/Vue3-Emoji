@@ -1,16 +1,16 @@
 {
     "dark":{
-        "backgroundColor":"#000",
-        "fontColor":"#fff",
-        "hoverColor":"#909090",
-        "activeColor":"#909090",
-        "shadowColor":"rgba(255,255,255,.2)"
+        "V3Emoji-backgroundColor":"#000",
+        "V3Emoji-fontColor":"#fff",
+        "V3Emoji-hoverColor":"#909090",
+        "V3Emoji-activeColor":"#909090",
+        "V3Emoji-shadowColor":"rgba(255,255,255,.2)"
     },
     "default":{
-        "backgroundColor":"#fff",
-        "fontColor":"#000",
-        "hoverColor":"#e7e7e7",
-        "activeColor":"#b6b6b6",
-        "shadowColor":"rgba(0,0,0,.4)"
+        "V3Emoji-backgroundColor":"#fff",
+        "V3Emoji-fontColor":"#000",
+        "V3Emoji-hoverColor":"#e7e7e7",
+        "V3Emoji-activeColor":"#b6b6b6",
+        "V3Emoji-shadowColor":"rgba(0,0,0,.4)"
     }
 }
