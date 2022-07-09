@@ -2,10 +2,10 @@ declare namespace Emoji {
   interface EmojiItem {
     emoji: string;
     name: string;
-    skin_tone_support: boolean;
-    unicode_version: string;
-    emoji_version: string;
-    skin_tone_support_unicode_version: string;
+    skin_tone_support?: boolean;
+    unicode_version?: string;
+    emoji_version?: string;
+    skin_tone_support_unicode_version?: string;
   }
   interface ObjectItem {
     [key: string]: EmojiItem[];
@@ -28,6 +28,16 @@ declare namespace Emoji {
     [height: string]: string; // height is optional
     [fontSize: string]: string; //emoji的大小
     [itemSize: string]: string; //每一项的大小
+  }
+  interface CustomIcon {
+    [key: string]: string;
+  }
+  interface CustomTheme {
+    [key: string]: string;
+    backgroundColor: string;
+    hoverColor: string;
+    activeColor: string;
+    shadowColor: string;
   }
 }
 declare module 'vue3-emoji';
