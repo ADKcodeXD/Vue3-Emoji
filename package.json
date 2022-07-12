@@ -3,7 +3,7 @@
   "private": false,
   "author": "ADKCodeXD",
   "description": "一个简单的Emoji表情选择组件",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "license": "MIT",
   "main": "dist/Vue3Emoji.umd.js",
   "module": "dist/Vue3Emoji.es.js",
@@ -38,8 +38,8 @@
     "lint": "eslint --ext .ts,.js,.vue ./ ",
     "lint:fix": "eslint --fix --ext .ts,.js,.vue ./"
   },
-  "dependencies": {
-    "vue": "^3.2.25"
+  "peerDependencies": {
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.3",
@@ -58,9 +58,7 @@
     "typescript": "^4.5.4",
     "unplugin-auto-import": "^0.9.2",
     "vite": "^2.9.9",
+    "vue": "^3.0.0",
     "vue-tsc": "^0.38.3"
-  },
-  "peerDependencies": {
-    "vue": "^3.0.0"
   }
 }
