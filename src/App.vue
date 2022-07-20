@@ -111,6 +111,7 @@ const disableGroup2 = [
           :keep="true"
           :customIcon="customIcon"
           size="small"
+          fix-pos="upright"
           :customTab="customTab"
           v-model="abc"
         />

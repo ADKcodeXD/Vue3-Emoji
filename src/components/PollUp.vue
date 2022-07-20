@@ -79,6 +79,7 @@ const props = defineProps<{
   customIcon?: Emoji.CustomIcon;
   customTheme?: Emoji.CustomTheme;
   customTab?: Emoji.JsonData;
+  fixPos?: Emoji.FixType;
 }>();
 const emit = defineEmits(['clickEmoji']);
 const emojiData: Emoji.JsonData = EmojiData;
@@ -149,7 +150,7 @@ const deleteRecent = () => {
 };
 // 改变位置
 const changePos = () => {
-  if (pollUpEl.value) {
+  if (pollUpEl.value && !props.fixPos) {
     //这里就是打开弹出层 如果检测到上方空间不够 那就移动到下面
     if (pollUpEl.value.getBoundingClientRect().top < 0) {
       pollUpEl.value.style.bottom = 'unset';
@@ -159,6 +160,49 @@ const changePos = () => {
     if (pollUpEl.value.getBoundingClientRect().left < 0) {
       pollUpEl.value.style.left = '0';
       pollUpEl.value.style.right = 'unset';
+    }
+  } else if (pollUpEl.value) {
+    switch (props.fixPos) {
+      case 'upcenter':
+        pollUpEl.value.style.left = 'unset';
+        pollUpEl.value.style.right = 'unset';
+        pollUpEl.value.style.transform = 'translateX(-50%)';
+        pollUpEl.value.style.bottom = '50px';
+        pollUpEl.value.style.top = 'unset';
+        break;
+      case 'downcenter':
+        pollUpEl.value.style.left = 'unset';
+        pollUpEl.value.style.right = 'unset';
+        pollUpEl.value.style.transform = 'translateX(-50%)';
+        pollUpEl.value.style.bottom = 'unset';
+        pollUpEl.value.style.top = '50px';
+        break;
+      case 'downleft':
+        pollUpEl.value.style.right = '0';
+        pollUpEl.value.style.left = 'unset';
+        pollUpEl.value.style.bottom = 'unset';
+        pollUpEl.value.style.top = '50px';
+        break;
+      case 'downright':
+        pollUpEl.value.style.right = 'unset';
+        pollUpEl.value.style.left = '0';
+        pollUpEl.value.style.bottom = 'unset';
+        pollUpEl.value.style.top = '50px';
+        break;
+      case 'upleft':
+        pollUpEl.value.style.bottom = '50px';
+        pollUpEl.value.style.top = 'unset';
+        pollUpEl.value.style.right = '0';
+        pollUpEl.value.style.left = 'unset';
+        break;
+      case 'upright':
+        pollUpEl.value.style.bottom = '50px';
+        pollUpEl.value.style.top = 'unset';
+        pollUpEl.value.style.right = 'unset';
+        pollUpEl.value.style.left = '0';
+        break;
+      default:
+        break;
     }
   }
 };
@@ -204,10 +248,14 @@ onMounted(() => {
   setSize();
   setTheme();
   changePos();
-  document.addEventListener('scroll', changePos);
+  if (!props.fixPos) {
+    document.addEventListener('scroll', changePos);
+  }
 });
 onBeforeUnmount(() => {
-  document.removeEventListener('scroll', changePos);
+  if (!props.fixPos) {
+    document.removeEventListener('scroll', changePos);
+  }
 });
 </script>
 
@@ -250,7 +298,6 @@ $fontColor: var(--V3Emoji-fontColor);
   .emoji-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, calc(var(--V3Emoji-itemSize) + 2 * $padding));
-    grid-auto-flow: auto;
     justify-content: space-between;
     align-items: center;
     max-height: calc(
@@ -258,13 +305,10 @@ $fontColor: var(--V3Emoji-fontColor);
     ); //计算出最大高度 根据tabname以及tab
     overflow-y: auto;
     &-item {
-      width: $itemsize;
-      height: $itemsize;
       padding: $padding;
       font-size: $fontsize;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      line-height: $itemsize;
+      text-align: center;
       cursor: pointer;
       &:hover {
         background-color: $hoverColor;

@@ -40,5 +40,6 @@ declare namespace Emoji {
     'V3Emoji-activeColor': string;
     'V3Emoji-shadowColor': string;
   }
+  type FixType = 'upleft' | 'upright' | 'upcenter' | 'downleft' | 'downright' | 'downcenter';
 }
 declare module 'vue3-emoji';

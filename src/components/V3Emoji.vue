@@ -21,6 +21,7 @@
         :customSize="customSize"
         :customIcon="customIcon"
         :customTab="customTab"
+        :fixPos="fixPos"
         :customTheme="customTheme"
       />
     </div>
@@ -53,6 +54,7 @@
           :customIcon="customIcon"
           :customTheme="customTheme"
           :customTab="customTab"
+          :fixPos="fixPos"
         />
       </div>
     </div>
@@ -81,6 +83,7 @@ const props = withDefaults(
     customTheme?: Emoji.CustomTheme; //自定义主题
     customIcon?: Emoji.CustomIcon; //自定义图标
     customTab?: Emoji.ObjectItem; //支持自定义选择部分emoji单独设置一个板块
+    fixPos?: Emoji.FixType; //固定位置 如果固定了位置 那么表情框只会在固定的位置 并不会随着页面的变化而改变位置
   }>(),
   {
     size: 'mid',
