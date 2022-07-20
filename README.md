@@ -222,6 +222,16 @@ const disableGroup = ['食物&饮料'];
         />
 ```
 
+#### fixPos
+
+通过fixpos 可以固定表情弹出框的位置，默认情况下表情弹出框会随着滚动条和屏幕上下移动而变化
+
+```ts
+<V3Emoji
+          fix-pos="upright" // or 'upcenter'| 'upleft' |'downright' |'downcenter'|'downleft'
+        />
+```
+
 ### customSize
 
 **利用customSize 你可以自定义表情框的大小**
@@ -367,12 +377,17 @@ const abc = ref('这里是双向绑定的值');
 |      keep      |        boolean        |        false        |         如果指定为true 那么表情框关闭将不会销毁组件          |
 |    textArea    |        boolean        |        false        |                      开启文本框功能选项                      |
 | textAreaOption | Emoji.TextAreaOptions |     见类型定义      |                 你可以定义textarea的一些选项                 |
+|     fixPos     |        六个值         |       FixType       |               可以传入一个值来固定表情框的位置               |
 |   customSize   |   Emoji.CustomSize    |     见类型定义      | 如果指定了相应的自定义大小，那么会将pollup表情选择框的大小重置，没有指定的将使用相应size的默认值 |
 |  customTheme   |   Emoji.CustomTheme   |     见类型定义      | 自定义主题颜色，支持五个选项的配置，没有指定的依旧会使用指定的theme的默认值 |
 |   customIcon   |   Emoji.CustomIcon    |     见类型定义      |                    自定义tab切换栏的显示                     |
 |   customTab    |   Emoji.ObjectItem    |     见类型定义      | 你可以传入一个对象来指定一个新的选项卡，这个选项卡内可以放置你需要的emoji |
 | unicodeVersion |        number         |         11          |         在某些设备上可能不能兼容高版本的emojiunicode         |
 |     *skin*     |           -           |        none         |                      暂时无法很好的支持                      |
+
+```ts
+type FixType = 'upleft' | 'upright' | 'upcenter' | 'downleft' | 'downright' | 'downcenter'; //控制表情弹出框的位置
+```
 
 ## 事件/Events
 
@@ -420,6 +435,7 @@ declare namespace Emoji {
   interface CustomIcon {
     [key: string]: string;
   }
+   type FixType = 'upleft' | 'upright' | 'upcenter' | 'downleft' | 'downright' | 'downcenter';
   interface CustomTheme {
     [key: string]: string;
     'V3Emoji-backgroundColor': string;
