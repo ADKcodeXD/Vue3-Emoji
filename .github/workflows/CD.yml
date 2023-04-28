@@ -30,7 +30,7 @@ jobs:
       # 运行eslint并且fix代码
       - name: Eslint fix
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: yarn lint:fix
+        run: yarn lintfix
       # 从package.json里获取version属性的值
       # 在CD Workflow中会给每个生成的制品打上标签，而标签取值于version值
       - name: Read Version
