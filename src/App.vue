@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import V3Emoji from './components/V3Emoji.vue';
-const inputText = ref('');
+import V3Emoji from './components/V3Emoji.vue'
+import { Emoji } from './types/type'
+const inputText = ref('')
 const clickEmoji = (val: any) => {
-  clickEvent.value = val;
-  console.log(val);
-};
+  clickEvent.value = val
+  console.log(val)
+}
 const optionsName = {
   'Smileys & Emotion': '笑脸&表情',
   'Food & Drink': '食物&饮料',
@@ -14,44 +15,44 @@ const optionsName = {
   Objects: '物品',
   Symbols: '符号',
   Flags: '旗帜',
-  Activities: '活动'
-};
-const disableGroup = ['食物&饮料'];
-const abc = ref('这里是双向绑定的值');
-const clickEvent = ref('');
+  Activities: '活动',
+}
+const disableGroup = ['食物&饮料']
+const abc = ref('这里是双向绑定的值')
+const clickEvent = ref('')
 const customIcon: Emoji.JsonData = {
   'Smileys & Emotion': '😚',
   'Food & Drink': '🍔',
   'Animals & Nature': '🐶',
   Activities: '🎉',
   'Travel & Places': '🚗',
-  Objects: '💰'
-};
+  Objects: '💰',
+}
 const customTab: Emoji.ObjectItem = {
   我的自定义板块: [
     {
       emoji: '🍔',
-      name: '汉堡包'
+      name: '汉堡包',
     },
     {
       emoji: '🍟',
-      name: '薯条'
-    }
-  ]
-};
+      name: '薯条',
+    },
+  ],
+}
 const customSize: Emoji.CustomSize = {
   'V3Emoji-width': '300px',
   'V3Emoji-height': '20rem',
   'V3Emoji-fontSize': '1rem',
-  'V3Emoji-itemSize': '50px'
-};
+  'V3Emoji-itemSize': '50px',
+}
 const customTheme: Emoji.CustomTheme = {
   'V3Emoji-hoverColor': '#ff5500',
   'V3Emoji-activeColor': '#99ff77',
   'V3Emoji-shadowColor': 'rgba(255,255,0,0.5)',
   'V3Emoji-backgroundColor': '#000000',
-  'V3Emoji-fontColor': '#ffffff'
-};
+  'V3Emoji-fontColor': '#ffffff',
+}
 const disableGroup2 = [
   'Smileys & Emotion',
   'Food & Drink',
@@ -61,8 +62,8 @@ const disableGroup2 = [
   'Objects',
   'Symbols',
   'Flags',
-  'Activities'
-];
+  'Activities',
+]
 </script>
 
 <template>
@@ -108,10 +109,11 @@ const disableGroup2 = [
           default-select="我的自定义板块"
           :fulldata="true"
           :textArea="true"
-          :keep="true"
+          :keep="false"
+          inputType="textarea"
           :customIcon="customIcon"
           size="small"
-          fix-pos="upright"
+          fix-pos="upcenter"
           :customTab="customTab"
           v-model="abc"
         />

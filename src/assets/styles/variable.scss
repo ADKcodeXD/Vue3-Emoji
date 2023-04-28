@@ -1,0 +1,25 @@
+$fontsize: var(--V3Emoji-fontSize);
+$itemsize: var(--V3Emoji-itemSize);
+$width: var(--V3Emoji-width);
+$height: var(--V3Emoji-height);
+$backgroundColor: var(--V3Emoji-backgroundColor);
+$hoverColor: var(--V3Emoji-hoverColor);
+$activeColor: var(--V3Emoji-activeColor);
+$shadowColor: var(--V3Emoji-shadowColor);
+$fontColor: var(--V3Emoji-fontColor);
+$borderColor: var(--V3Emoji-borderColor);
+$borderFocusColor: var(--V3Emoji-borderFocusColor);
+
+:root {
+  --V3Emoji-fontSize: 14px;
+  --V3Emoji-itemSize: 30px;
+  --V3Emoji-width: 300px;
+  --V3Emoji-height: 300px;
+  --V3Emoji-backgroundColor: #fff;
+  --V3Emoji-hoverColor: #f5f5f5;
+  --V3Emoji-activeColor: #ebebeb;
+  --V3Emoji-shadowColor: rgba(0, 0, 0, 0.1);
+  --V3Emoji-fontColor: #333;
+  --V3Emoji-borderColor: #333;
+  --V3Emoji-borderFocusColor: rgb(28, 149, 248);
+}

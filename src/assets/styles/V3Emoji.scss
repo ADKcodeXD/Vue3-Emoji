@@ -1,16 +1,17 @@
-p{
-    margin: 0;
+@import "./variable.scss";
+p {
+  margin: 0;
 }
 ::-webkit-scrollbar {
-    /*高宽分别对应横竖滚动条的尺寸*/
-    width: 6px;
-    height: 6px;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px !important;
-    background-color: rgb(216, 216, 216);
+  border-radius: 10px !important;
+  background-color: rgb(216, 216, 216);
 }
 ::-webkit-scrollbar-track {
-    border-radius: 10px !important;
-    background: #EDEDED !important;
+  border-radius: 10px !important;
+  background: #ededed !important;
 }

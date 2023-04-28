@@ -1,4 +1,5 @@
 import { Ref } from 'vue';
+import { Emoji } from '../types/type';
 import { setItem } from './storage';
 /**
  * 用与保存emoji到本地

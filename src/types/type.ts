@@ -1,4 +1,5 @@
-declare namespace Emoji {
+
+export declare namespace Emoji {
   interface EmojiItem {
     emoji: string;
     name: string;
@@ -21,7 +22,7 @@ declare namespace Emoji {
     placeholder?: string;
     rows?: number;
     cols?: number;
-    resize?: StyleValue;
+    resize?: any;
   }
   interface CustomSize {
     [key: string]: string;
@@ -42,4 +43,3 @@ declare namespace Emoji {
   }
   type FixType = 'upleft' | 'upright' | 'upcenter' | 'downleft' | 'downright' | 'downcenter';
 }
-declare module 'vue3-emoji';
