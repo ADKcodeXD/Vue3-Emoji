@@ -1,13 +1,14 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    parser: '@typescript-eslint/parser',
   },
   plugins: ['@typescript-eslint/eslint-plugin', 'prettier'],
   rules: {
@@ -17,6 +18,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'no-mutating-props': 'off',
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/no-namespace': 'off',
     'prettier/prettier': [
       'error',
       {
@@ -27,8 +29,8 @@ module.exports = {
         semi: false, //去分号
         trailingComma: 'none', //无尾逗号
         arrowParens: 'avoid', //箭头函数尽可能省略括号
-        endOfLine: 'auto'
-      }
-    ]
-  }
-};
+        endOfLine: 'auto',
+      },
+    ],
+  },
+}

@@ -1,2 +1,2 @@
-import V3Emoji from '../components/V3Emoji.vue';
-export default V3Emoji;
+import V3Emoji from '../components/V3Emoji.vue'
+export default V3Emoji

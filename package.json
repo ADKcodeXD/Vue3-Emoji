@@ -8,7 +8,7 @@
   "main": "dist/Vue3Emoji.umd.js",
   "module": "dist/Vue3Emoji.es.js",
   "style": "dist/style.css",
-  "type": "module",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/ADKcodeXD/Vue3-Emoji/issues"
   },
@@ -35,8 +35,8 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "type-check": "vue-tsc --noEmit",
-    "lint": "eslint src/**/* --ext '.js,.ts,.vue' --no-error-on-unmatched-pattern",
-    "lintfix": "eslint --fix --ext '.js,.ts,.vue' src/**/* --no-error-on-unmatched-pattern"
+    "lint": "eslint --ext '.ts,.vue' src/**/*",
+    "lintfix": "eslint --fix --ext '.ts,.vue' src/**/* --no-error-on-unmatched-pattern"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

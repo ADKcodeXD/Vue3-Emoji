@@ -1,20 +1,20 @@
 {
-    "small": {
-        "V3Emoji-width": "300px",
-        "V3Emoji-height": "200px",
-        "V3Emoji-fontSize": "14px",
-        "V3Emoji-itemSize": "20px"
-    },
-    "mid": {
-        "V3Emoji-width": "500px",
-        "V3Emoji-height": "300px",
-        "V3Emoji-fontSize": "16px",
-        "V3Emoji-itemSize": "30px"
-    },
-    "big": {
-        "V3Emoji-width": "800px",
-        "V3Emoji-height": "400px",
-        "V3Emoji-fontSize": "20px",
-        "V3Emoji-itemSize": "36px"
-    }
+	"small": {
+		"V3Emoji-width": "300px",
+		"V3Emoji-height": "200px",
+		"V3Emoji-fontSize": "14px",
+		"V3Emoji-itemSize": "20px"
+	},
+	"mid": {
+		"V3Emoji-width": "500px",
+		"V3Emoji-height": "300px",
+		"V3Emoji-fontSize": "16px",
+		"V3Emoji-itemSize": "30px"
+	},
+	"big": {
+		"V3Emoji-width": "800px",
+		"V3Emoji-height": "400px",
+		"V3Emoji-fontSize": "20px",
+		"V3Emoji-itemSize": "36px"
+	}
 }
