@@ -110,6 +110,7 @@ const disableGroup2 = [
 					:fulldata="true"
 					:textArea="true"
 					:keep="false"
+					:manual-close="true"
 					inputType="textarea"
 					:customIcon="customIcon"
 					size="small"

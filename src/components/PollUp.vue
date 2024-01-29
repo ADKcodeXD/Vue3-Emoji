@@ -1,15 +1,15 @@
 <template>
-	<div class="pollup" ref="pollUpEl" :style="posVar">
-		<div class="tab-name" v-if="activeTab === 'recent'">
+	<div :class="styles['pollup']" ref="pollUpEl" :style="posVar">
+		<div :class="styles['tab-name']" v-if="activeTab === 'recent'">
 			<p sytle="margin:0 5px;">最近使用</p>
-			<a class="delete-recent" @click="deleteRecent">删除所有选项</a>
+			<a :class="styles['delete-recent']" @click="deleteRecent">删除所有选项</a>
 		</div>
-		<p class="tab-name" v-else>{{ activeTab }}</p>
-		<div class="emoji-container">
+		<p :class="styles['tab-name']" v-else>{{ activeTab }}</p>
+		<div :class="styles['emoji-container']" ref="container">
 			<template v-if="activeTab === 'recent'">
 				<div
-					class="emoji-container-item"
-					v-for="(emoji, index) in recentData['recent']"
+					:class="styles['emoji-container-item']"
+					v-for="(emoji, index) in recentDataArr"
 					:key="index"
 					@click="clickEmoji(emoji)"
 					:title="emoji.name"
@@ -19,7 +19,7 @@
 
 			<template v-else>
 				<div
-					class="emoji-container-item"
+					:class="styles['emoji-container-item']"
 					v-for="(emoji, index) in renderData[activeTab]"
 					:key="index"
 					@click="clickEmoji(emoji)"
@@ -28,10 +28,18 @@
 				></div>
 			</template>
 		</div>
-		<div class="tab-container">
+		<div :class="styles['tab-container']" ref="tabcontainer">
 			<!-- 最近使用过的的选项 -->
-			<div class="tab-item" v-if="needLocal" @click="changeTab('recent')" :class="{ active: activeTab === 'recent' }">🔥</div>
-			<div class="tab-item" v-for="tab in groupName" :title="tab" :key="tab" @click="changeTab(tab)" :class="{ active: tab === activeTab }">
+			<div :class="[styles['tab-item'], activeTab === 'recent' ? styles['active'] : '']" v-if="needLocal" @click="changeTab('recent')">
+				🔥
+			</div>
+			<div
+				:class="[styles['tab-item'], tab === activeTab ? styles['active'] : '']"
+				v-for="tab in groupName"
+				:title="tab"
+				:key="tab"
+				@click="changeTab(tab)"
+			>
 				{{ customIcon && customIcon[tab] ? customIcon[tab] : renderData[tab][0].emoji }}
 			</div>
 		</div>
@@ -39,10 +47,10 @@
 </template>
 
 <script setup lang="ts">
-import '../assets/styles/V3Emoji.scss'
 import EmojiData from '../assets/emojidata/emoji-data.json'
 import SizeData from '../assets/options/SizeData.json'
 import ThemeData from '../assets/options/ThemeData.json'
+import styles from './PollUp.module.scss'
 import { filterData } from '../utils/emojiFilter'
 import { getItem, removeItem, setItem } from '../utils/storage'
 import { saveToLocal } from '../utils/commonUtils'
@@ -74,18 +82,24 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['clickEmoji'])
+
 const emojiData: Emoji.JsonData = EmojiData
 const sizeData: Emoji.JsonData = SizeData
 const themeData: Emoji.JsonData = ThemeData
+const groupName: string[] = []
 
 const activeTab = ref('Smileys & Emotion')
 const pollUpEl = ref<HTMLElement>()
 const observe = ref<ResizeObserver>()
 const renderData = filterData(emojiData, props.optionsName, props.unicodeVersion, props.disableGroup, props.customTab)
 const recentData = ref<Emoji.ObjectItem>(getItem('emoji-recent') || null)
-const groupName: string[] = []
-
 const posVar = ref({})
+const tabcontainer = ref()
+const container = ref()
+
+const recentDataArr = computed(() => {
+	return (recentData.value && recentData.value['recent']) || []
+})
 
 //过滤皮肤选项
 const emojiSkin = (emoji: Emoji.EmojiItem) => {
@@ -139,67 +153,70 @@ const deleteRecent = () => {
 	removeItem('emoji-recent')
 }
 
-// 改变位置
 const changePos = () => {
 	if (pollUpEl.value) {
-		// 这里就是打开弹出层 如果检测到上方空间不够 那就移动到下面
-		if (pollUpEl.value.getBoundingClientRect().top < 0) {
-			posVar.value = { bottom: 'unset', top: '50px' }
+		const rect = pollUpEl.value.getBoundingClientRect()
+		let newStyle = {}
+		// 上方空间不够
+		if (rect.top < 0) {
+			newStyle = { bottom: 'unset', top: '50px' }
 		}
-		// 如果检测到左边空间不够 那就移动到右边 如果空间不足则不移动
-		if (pollUpEl.value.getBoundingClientRect().left < 0) {
-			posVar.value = { left: '0px', right: 'unset' }
+		// 左边空间不够
+		else if (rect.left < 0) {
+			newStyle = { left: '0px', right: 'unset' }
 		}
-		// 如果检测到右边空间不够 那就移动到左边 如果空间不足则不移动
-		if (pollUpEl.value.getBoundingClientRect().right > window.innerWidth) {
-			posVar.value = { right: '0px', left: 'unset' }
+		// 右边空间不够
+		else if (rect.right > window.innerWidth) {
+			newStyle = { right: '0px', left: 'unset' }
 		}
-		// 如果检测到下方空间不够 那就移动到上面 如果空间不足则不移动
-		if (pollUpEl.value.getBoundingClientRect().bottom > window.innerHeight) {
-			posVar.value = { bottom: '50px', top: 'unset' }
+		// 下方空间不够
+		else if (rect.bottom > window.innerHeight) {
+			newStyle = { bottom: '50px', top: 'unset' }
 		}
+		posVar.value = Object.assign(pollUpEl.value.style, newStyle)
 	}
 }
 
 const initPos = () => {
 	if (pollUpEl.value) {
-		switch (props.fixPos) {
-			case 'upcenter':
-				posVar.value = { bottom: '50px', top: 'unset', left: 'unset', right: 'unset', transform: 'translateX(-50%)' }
-				break
-			case 'downcenter':
-				posVar.value = { bottom: 'unset', top: '50px', left: 'unset', right: 'unset', transform: 'translateX(-50%)' }
-				break
-			case 'downleft':
-				posVar.value = { bottom: 'unset', top: '50px', left: '0', right: 'unset' }
-				break
-			case 'downright':
-				posVar.value = { bottom: 'unset', top: '50px', right: 'unset', left: '0' }
-				break
-			case 'upleft':
-				posVar.value = { bottom: '50px', top: 'unset', right: '0', left: 'unset' }
-				break
-			case 'upright':
-				posVar.value = { bottom: '50px', top: 'unset', left: '0', right: 'unset' }
-				break
-			default:
-				break
+		const positions = {
+			upcenter: { bottom: '50px', top: 'unset', left: '50%', right: 'unset', transform: 'translateX(-50%)' },
+			downcenter: { bottom: 'unset', top: '50px', left: '50%', right: 'unset', transform: 'translateX(-50%)' },
+			downleft: { bottom: 'unset', top: '50px', left: '0', right: 'unset' },
+			downright: { bottom: 'unset', top: '50px', right: '0', left: 'unset' },
+			upleft: { bottom: '50px', top: 'unset', right: 'unset', left: '0' },
+			upright: { bottom: '50px', top: 'unset', left: 'unset', right: '0' }
 		}
+		posVar.value = positions[props.fixPos || 'upleft'] || {}
 	}
 }
 
 //设置pollup弹出框的大小
 const setSize = () => {
 	if (pollUpEl.value) {
-		if (props.customSize) {
-			for (let key in sizeData[props.size]) {
-				if (props.customSize[key]) pollUpEl.value.style.setProperty(`--${key}`, props.customSize[key])
-				else pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key])
+		let itemsize
+		let height
+		const padding = 10
+		for (let key in sizeData[props.size]) {
+			if (props.customSize && props.customSize[key]) pollUpEl.value.style.setProperty(`--${key}`, props.customSize[key])
+			else pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key])
+			switch (key) {
+				case 'V3Emoji-itemSize':
+					itemsize = (props.customSize && props.customSize[key]) || sizeData[props.size][key]
+					break
+				case 'V3Emoji-height':
+					height = (props.customSize && props.customSize[key]) || sizeData[props.size][key]
+					break
+				default:
+					break
 			}
-		} else {
-			for (let key in sizeData[props.size]) {
-				pollUpEl.value.style.setProperty(`--${key}`, sizeData[props.size][key])
+		}
+		if (container.value) {
+			let _height = parseInt(height) - parseInt(itemsize) * 2 - 2 * padding - parseInt(itemsize) / 2
+			if (tabcontainer.value && tabcontainer.value.scrollWidth > tabcontainer.value.clientWidth) {
+				_height = parseInt(height) - parseInt(itemsize) * 2 - 2 * padding - (parseInt(itemsize) / 2 + 4)
 			}
+			container.value.style['max-height'] = `${_height}px`
 		}
 	}
 }
@@ -207,23 +224,15 @@ const setSize = () => {
 // 设置主题
 const setTheme = () => {
 	if (pollUpEl.value) {
-		if (props.customTheme) {
-			for (let key in themeData[props.theme]) {
-				if (props.customTheme[key]) pollUpEl.value.style.setProperty(`--${key}`, props.customTheme[key])
-				else pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key])
-			}
-		} else {
-			for (let key in themeData[props.theme]) {
-				pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key])
-			}
+		for (let key in themeData[props.theme]) {
+			if (props.customTheme && props.customTheme[key]) pollUpEl.value.style.setProperty(`--${key}`, props.customTheme[key])
+			else pollUpEl.value.style.setProperty(`--${key}`, themeData[props.theme][key])
 		}
 	}
 }
 
-// props改变了 就进行重新渲染
-initPollup()
-
 watchEffect(() => {
+	initPollup()
 	setSize()
 	setTheme()
 })
@@ -233,13 +242,7 @@ onMounted(() => {
 	setTheme()
 	initPos()
 	observe.value = new IntersectionObserver(entries => {
-		entries.forEach(
-			entry => {
-				console.log(entry)
-				changePos()
-			},
-			{ threshold: 0.3 }
-		)
+		entries.forEach(changePos, { threshold: 0.3 })
 	})
 	if (pollUpEl.value) {
 		observe.value.observe(pollUpEl.value)
@@ -252,73 +255,3 @@ onBeforeUnmount(() => {
 	}
 })
 </script>
-
-<style lang="scss">
-@import '../assets/styles/V3Emoji.scss';
-$padding: 10px;
-.pollup {
-	width: $width;
-	height: $height;
-	position: absolute;
-	right: 0;
-	bottom: 50px;
-	z-index: 5;
-	transition: all ease 0.3s;
-	color: $fontColor;
-	background-color: $backgroundColor;
-	box-shadow: 3px 3px 10px $shadowColor;
-	border-radius: 15px;
-	overflow: hidden;
-	.tab-name {
-		font-size: $fontsize;
-		height: $itemsize;
-		margin: 5px 10px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		.delete-recent {
-			color: rgb(49, 190, 255);
-			cursor: pointer;
-		}
-	}
-	.emoji-container {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, calc(var(--V3Emoji-itemSize) + 2 * $padding));
-		justify-content: space-between;
-		align-items: center;
-		max-height: calc(var(--V3Emoji-height) - $itemsize * 2 - 2 * $padding - 10px); //计算出最大高度 根据tabname以及tab
-		overflow-y: auto;
-		&-item {
-			padding: $padding;
-			font-size: $fontsize;
-			line-height: $itemsize;
-			text-align: center;
-			cursor: pointer;
-			&:hover {
-				background-color: $hoverColor;
-			}
-		}
-	}
-	.tab-container {
-		position: absolute;
-		width: 100%;
-		height: calc(var(--V3Emoji-itemsize) + 2 * $padding);
-		overflow: auto;
-		bottom: 0;
-		display: flex;
-		background-color: $backgroundColor;
-		box-shadow: 3px 3px 10px $shadowColor;
-		.tab-item {
-			padding: $padding;
-			font-size: $fontsize;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-			&.active {
-				background-color: $activeColor;
-			}
-		}
-	}
-}
-</style>

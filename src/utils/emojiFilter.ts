@@ -10,6 +10,7 @@ export const emojiFilter = (version = 13, emojiList: Emoji.EmojiItem[]) => {
 		else return true
 	})
 }
+
 /**
  * 用于将数据过滤成所需
  * @param newData 需要过滤的emojijson newData

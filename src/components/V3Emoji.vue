@@ -1,7 +1,7 @@
 <template>
-	<div id="EmojiItem" class="emoji-item" ref="EmojiEl">
-		<div class="emoji-container" v-if="!textArea">
-			<div class="emoji-container-open-btn" @click="isPollupShow = !isPollupShow">
+	<div id="EmojiItem" :class="styles['emoji-item']" ref="EmojiEl">
+		<div :class="styles['emoji-container']" v-if="!textArea">
+			<div :class="styles['emoji-container-open-btn']" @click="isPollupShow = !isPollupShow">
 				<slot>😀</slot>
 			</div>
 			<PollUp
@@ -25,7 +25,7 @@
 				:customTheme="customTheme"
 			/>
 		</div>
-		<div class="emoji-textarea" v-else-if="inputType === 'textarea'">
+		<div :class="styles['emoji-textarea']" v-else-if="inputType === 'textarea'">
 			<textarea
 				v-model="textValue"
 				ref="textarea"
@@ -36,8 +36,8 @@
 				@focus="recordCursor"
 				:style="{ resize: textAreaOption.resize }"
 			></textarea>
-			<div class="emoji-textarea-pollup-container">
-				<div @click="isPollupShow = !isPollupShow" class="emoji-textarea-open-btn">
+			<div :class="styles['emoji-textarea-pollup-container']">
+				<div @click="isPollupShow = !isPollupShow" :class="styles['emoji-textarea-open-btn']">
 					<slot>😀</slot>
 				</div>
 				<PollUp
@@ -60,10 +60,10 @@
 				/>
 			</div>
 		</div>
-		<div class="emoji-input" v-else>
+		<div :class="styles['emoji-input']" v-else>
 			<input v-model="textValue" ref="inputArea" :placeholder="textAreaOption.placeholder" @blur="recordCursor" @focus="recordCursor" />
-			<div class="emoji-textarea-pollup-container">
-				<div @click="isPollupShow = !isPollupShow" class="emoji-textarea-open-btn">
+			<div :class="styles['emoji-textarea-pollup-container']">
+				<div @click="isPollupShow = !isPollupShow" :class="styles['emoji-textarea-open-btn']">
 					<slot>😀</slot>
 				</div>
 				<PollUp
@@ -91,6 +91,7 @@
 
 <script setup lang="ts">
 import '../assets/styles/V3Emoji.scss'
+import styles from './V3Emoji.module.scss'
 import { Emoji } from '../types/type'
 import PollUp from './PollUp.vue'
 
@@ -117,6 +118,7 @@ const props = withDefaults(
 		customIcon?: Emoji.CustomIcon //自定义图标
 		customTab?: Emoji.ObjectItem //支持自定义选择部分emoji单独设置一个板块
 		fixPos?: Emoji.FixType //固定位置 如果固定了位置 那么表情框只会在固定的位置 并不会随着页面的变化而改变位置
+		manualClose?: boolean // 是否手动关闭
 	}>(),
 	{
 		size: 'mid',
@@ -130,6 +132,7 @@ const props = withDefaults(
 		modelValue: '',
 		keep: false,
 		inputType: 'textarea',
+		manualClose: false,
 		optionsName: () => {
 			return {}
 		},
@@ -169,10 +172,16 @@ const textAreaClickOutSide = (e: any) => {
 }
 
 const clickOutSide = (e: MouseEvent) => {
-	if (!EmojiEl.value?.contains(e.target as HTMLElement) && textAreaClickOutSide(e)) {
+	if (props.manualClose) {
+		return
+	} else if (!EmojiEl.value?.contains(e.target as HTMLElement) && textAreaClickOutSide(e)) {
 		isPollupShow.value = false
 		emit('close')
 	}
+}
+
+const closePop = () => {
+	isPollupShow.value = false
 }
 
 const clickEmoji = (emoji: Emoji.EmojiItem) => {
@@ -196,8 +205,12 @@ const recordCursor = (focus: any) => {
 			end.value = inputArea.value.selectionEnd
 		}
 	}
-	focus ? (isPollupShow.value = false) : ''
+	focus && !props.manualClose ? (isPollupShow.value = false) : ''
 }
+
+defineExpose({
+	closePop
+})
 
 watchEffect(() => {
 	emit('update:modelValue', textValue.value)
@@ -216,75 +229,3 @@ onBeforeUnmount(() => {
 	document.removeEventListener('click', clickOutSide)
 })
 </script>
-
-<style lang="scss">
-@import '../assets/styles/V3Emoji.scss';
-.emoji-container {
-	position: relative;
-	display: inline-flex;
-	&-open-btn {
-		font-size: 20px;
-		cursor: pointer;
-	}
-}
-.emoji-item {
-	width: 100%;
-	height: 100%;
-}
-.emoji-textarea {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	textarea {
-		width: 100%;
-		height: 100%;
-		padding: 8px;
-		box-sizing: border-box;
-		border-radius: 8px;
-		font-size: $fontsize;
-		line-height: 24px;
-		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-		border: 1px solid $borderColor;
-		outline: none;
-		&:focus {
-			border: 1px solid $borderFocusColor;
-		}
-	}
-
-	.emoji-textarea-pollup-container {
-		font-size: 20px;
-		position: absolute;
-		bottom: 12px;
-		right: 5px;
-		z-index: 2;
-		.emoji-textarea-open-btn {
-			cursor: pointer;
-		}
-	}
-}
-.emoji-input {
-	position: relative;
-	width: 100%;
-	input {
-		width: 100%;
-		line-height: 24px;
-		border-radius: 8px;
-		font-size: $fontsize;
-		outline: none;
-		border: 1px solid $borderColor;
-		box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-		&:focus {
-			border: 1px solid $borderFocusColor;
-		}
-	}
-	.emoji-textarea-pollup-container {
-		font-size: 20px;
-		position: absolute;
-		right: 0;
-		z-index: 2;
-		.emoji-textarea-open-btn {
-			cursor: pointer;
-		}
-	}
-}
-</style>

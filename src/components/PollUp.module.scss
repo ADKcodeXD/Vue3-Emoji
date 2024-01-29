@@ -1,0 +1,74 @@
+@import '../assets/styles/V3Emoji.scss';
+$padding: 10px;
+
+.pollup {
+	width: $width;
+	height: $height;
+	position: absolute;
+	right: 0;
+	bottom: 50px;
+	z-index: 5;
+	transition: all ease 0.3s;
+	color: $fontColor;
+	background-color: $backgroundColor;
+	box-shadow: 3px 3px 10px $shadowColor;
+	border-radius: 16px;
+	overflow: hidden;
+}
+
+.tab-name {
+	font-size: $fontsize;
+	height: $itemsize;
+	margin: 6px 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.delete-recent {
+	color: rgb(49, 190, 255);
+	cursor: pointer;
+}
+
+.emoji-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, calc($itemsize + 2 * $padding));
+	justify-content: space-between;
+	align-items: center;
+	max-height: calc($height - $itemsize * 2 - 2 * $padding - 10px);
+	overflow-y: auto;
+}
+.emoji-container-item {
+	padding: $padding;
+	font-size: $fontsize;
+	line-height: $itemsize;
+	text-align: center;
+	cursor: pointer;
+	&:hover {
+		background-color: $hoverColor;
+	}
+}
+
+.tab-container {
+	position: absolute;
+	width: 100%;
+	height: calc($itemsize + 2 * $padding);
+	overflow: auto;
+	bottom: 0;
+	display: flex;
+	background-color: $backgroundColor;
+	box-shadow: 3px 3px 10px $shadowColor;
+}
+
+.tab-item {
+	padding: $padding;
+	font-size: $fontsize;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.active {
+	background-color: $activeColor;
+}

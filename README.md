@@ -364,11 +364,16 @@ const abc = ref('这里是双向绑定的值');
 
 ## 配置/Options
 
+
+
+
+
 |     配置名     |       配置类型        |       默认值        |                          说明/备注                           |
 | :------------: | :-------------------: | :-----------------: | :----------------------------------------------------------: |
 |    v-model     |        string         |         ‘’          |          可以进行数据的双向绑定（需要开启textArea）          |
 |      size      | ‘mid’\|'small'\|'big' |         mid         |                       用于调整整体大小                       |
 |     theme      |   'dark'\|'default'   |       default       |                 主题切换 支持亮色和暗黑主题                  |
+|  manualClose   |        boolean        |        false        |              设置为true可以手动控制弹出框的关闭              |
 |  optionsName   |           -           |         {}          |                       翻译原有板块名字                       |
 |  disableGroup  |       string[]        |         []          |                         禁用某些板块                         |
 | defaultSelect  |        string         | 'Smileys & Emotion' |     默认选中板块，注意：如果指定了新名字，需要传入新名字     |
@@ -388,6 +393,12 @@ const abc = ref('这里是双向绑定的值');
 ```ts
 type FixType = 'upleft' | 'upright' | 'upcenter' | 'downleft' | 'downright' | 'downcenter'; //控制表情弹出框的位置
 ```
+
+## 方法/Function
+
+| 方法名   | 类型     | 说明           |
+| -------- | -------- | -------------- |
+| closePop | ()=>void | 关闭表情弹出框 |
 
 ## 事件/Events
 
