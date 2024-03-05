@@ -522,7 +522,11 @@ declare namespace Emoji {
   </template>
   ```
 
-  
+
+## Link for npm
+
+https://github.com/ADKcodeXD/Vue3-Emoji.git
+https://github.com/ADKcodeXD/Vue3-Emoji
 
 ## 许可/Licence
 
