@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import V3Emoji from './components/V3Emoji.vue'
 import { Emoji } from './types/type'
-const inputText = ref('')
+import { ref } from 'vue'
 const clickEmoji = (val: any) => {
 	clickEvent.value = val
 	console.log(val)
@@ -119,8 +119,6 @@ const disableGroup2 = [
 					v-model="abc"
 				/>
 			</div>
-			<input style="width: 100%; margin-top: 10px" v-model="abc" />
-			<button @click="abc = ''">清空</button>
 		</div>
 		<h2>你当前点击的是</h2>
 		{{ clickEvent }}

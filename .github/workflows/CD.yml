@@ -69,9 +69,3 @@ jobs:
           asset_path: ./assets.zip
           asset_name: assets.zip
           asset_content_type: application/zip
-      # 发布到 npm
-      - name: Publish to npm
-        if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

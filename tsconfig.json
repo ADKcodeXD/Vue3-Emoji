@@ -6,6 +6,8 @@
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
     "sourceMap": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -24,7 +26,8 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "./*.d.ts"
+    "src/*.d.ts",
+    "index.d.ts"
   ],
   "exclude": [
     "./dist"
