@@ -17,12 +17,7 @@ export declare namespace Emoji {
 	interface JsonData {
 		[key: string]: any
 	}
-	interface TextAreaOptions {
-		placeholder?: string
-		rows?: number
-		cols?: number
-		resize?: any
-	}
+
 	interface CustomSize {
 		[key: string]: string
 		'V3Emoji-width': string // emoji的宽度
