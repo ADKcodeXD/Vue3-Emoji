@@ -53,6 +53,13 @@ npm install vue3-emoji
 yarn add vue3-emoji
 ```
 
+### CDN 引入
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/vue3-emoji@latest/dist/Vue3Emoji.umd.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue3-emoji@latest/dist/style.css" />
+```
+
 ### 基本使用 /basic usage
 
 ```vue
@@ -327,24 +334,24 @@ const customTheme = {
 
 ## 配置/Options
 
-|     配置名     |       配置类型        |       默认值        |                          说明/备注                           |
-| :------------: | :-------------------: | :-----------------: | :----------------------------------------------------------: |
-|      size      | ‘mid’\|'small'\|'big' |         mid         |                       用于调整整体大小                       |
-|     theme      |   'dark'\|'default'   |       default       |                 主题切换 支持亮色和暗黑主题                  |
-|  manualClose   |        boolean        |        false        |             设置为 true 可以手动控制弹出框的关闭             |
-|  optionsName   |           -           |         {}          |                       翻译原有板块名字                       |
-|  disableGroup  |       string[]        |         []          |                         禁用某些板块                         |
-| defaultSelect  |        string         | 'Smileys & Emotion' |     默认选中板块，注意：如果指定了新名字，需要传入新名字     |
-|     recent     |        boolean        |        false        |                   开启最近使用 emoji 功能                    |
-|    fulldata    |        boolean        |        false        | 如果指定为 true 那么 clickEmoji 事件将会传出一个 EmojiItem 类型的对象 |
-|     fixPos     |     查看tippy官网     |        tippy        |               可以传入一个值来固定表情框的位置               |
+|     配置名     |       配置类型        |       默认值        |                                              说明/备注                                               |
+| :------------: | :-------------------: | :-----------------: | :--------------------------------------------------------------------------------------------------: |
+|      size      | ‘mid’\|'small'\|'big' |         mid         |                                           用于调整整体大小                                           |
+|     theme      |   'dark'\|'default'   |       default       |                                     主题切换 支持亮色和暗黑主题                                      |
+|  manualClose   |        boolean        |        false        |                                 设置为 true 可以手动控制弹出框的关闭                                 |
+|  optionsName   |           -           |         {}          |                                           翻译原有板块名字                                           |
+|  disableGroup  |       string[]        |         []          |                                             禁用某些板块                                             |
+| defaultSelect  |        string         | 'Smileys & Emotion' |                         默认选中板块，注意：如果指定了新名字，需要传入新名字                         |
+|     recent     |        boolean        |        false        |                                       开启最近使用 emoji 功能                                        |
+|    fulldata    |        boolean        |        false        |                如果指定为 true 那么 clickEmoji 事件将会传出一个 EmojiItem 类型的对象                 |
+|     fixPos     |    查看 tippy 官网    |        tippy        |                                   可以传入一个值来固定表情框的位置                                   |
 |   customSize   |   Emoji.CustomSize    |     见类型定义      | 如果指定了相应的自定义大小，那么会将 pollup 表情选择框的大小重置，没有指定的将使用相应 size 的默认值 |
-|  customTheme   |   Emoji.CustomTheme   |     见类型定义      | 自定义主题颜色，支持五个选项的配置，没有指定的依旧会使用指定的 theme 的默认值 |
-|   customIcon   |   Emoji.CustomIcon    |     见类型定义      |                   自定义 tab 切换栏的显示                    |
-|   customTab    |   Emoji.ObjectItem    |     见类型定义      | 你可以传入一个对象来指定一个新的选项卡，这个选项卡内可以放置你需要的 emoji |
-| unicodeVersion |        number         |         11          |        在某些设备上可能不能兼容高版本的 emojiunicode         |
-|     _skin_     |           -           |        none         |                      暂时无法很好的支持                      |
-|  tippyOptions  |   自定义tippy的配置   |                     |     https://atomiks.github.io/tippyjs/v6/customization/      |
+|  customTheme   |   Emoji.CustomTheme   |     见类型定义      |            自定义主题颜色，支持五个选项的配置，没有指定的依旧会使用指定的 theme 的默认值             |
+|   customIcon   |   Emoji.CustomIcon    |     见类型定义      |                                       自定义 tab 切换栏的显示                                        |
+|   customTab    |   Emoji.ObjectItem    |     见类型定义      |              你可以传入一个对象来指定一个新的选项卡，这个选项卡内可以放置你需要的 emoji              |
+| unicodeVersion |        number         |         11          |                            在某些设备上可能不能兼容高版本的 emojiunicode                             |
+|     _skin_     |           -           |        none         |                                          暂时无法很好的支持                                          |
+|  tippyOptions  |  自定义 tippy 的配置  |                     |                         https://atomiks.github.io/tippyjs/v6/customization/                          |
 
 ```ts
 type FixType = 'upleft' | 'upright' | 'upcenter' | 'downleft' | 'downright' | 'downcenter' //控制表情弹出框的位置
@@ -359,10 +366,10 @@ type FixType = 'upleft' | 'upright' | 'upcenter' | 'downleft' | 'downright' | 'd
 
 ## 事件/Events
 
-|   事件名   |           事件类型            |                             说明                             |
-| :--------: | :---------------------------: | :----------------------------------------------------------: |
+|   事件名   |           事件类型            |                             说明                              |
+| :--------: | :---------------------------: | :-----------------------------------------------------------: |
 | clickEmoji | (val:string\|EmojiItem)=>void | 点击 emoji 触发的事件，可以通过@clickEmoji 来接收选择的 emoji |
-|   close    |             void              |                    表情框关闭时触发的事件                    |
+|   close    |             void              |                    表情框关闭时触发的事件                     |
 
 ## 类型定义以及默认值/@types
 
