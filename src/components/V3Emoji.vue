@@ -1,7 +1,7 @@
 <template>
-	<div :id="$style['EmojiItem']" :class="$style['emoji-item']" ref="EmojiEl">
-		<div :class="$style['emoji-container']">
-			<div :class="$style['emoji-container-open-btn']" ref="pollUpElTrigger" @click="toggleTippy">
+	<div id="EmojiItem" :class="$style.emojiItem" ref="EmojiEl">
+		<div :class="$style.emojiContainer">
+			<div :class="$style.emojiContainerOpenBtn" ref="pollUpElTrigger" @click="toggleTippy">
 				<slot>😀</slot>
 			</div>
 			<div ref="pollUpEl" style="display: none">
@@ -153,22 +153,22 @@ defineExpose({
 <style lang="scss" module>
 @import '../assets/styles/V3Emoji.scss';
 
-.emoji-container {
+.emojiContainer {
   position: relative;
   display: inline-flex;
 }
 
-.emoji-container-open-btn {
+.emojiContainerOpenBtn {
   font-size: 20px;
   cursor: pointer;
 }
 
-.emoji-item {
+.emojiItem {
   width: 100%;
   height: 100%;
 }
 
-.emoji-textarea {
+.emojiTextarea {
   position: relative;
   width: 100%;
   height: 100%;
@@ -191,7 +191,7 @@ defineExpose({
   }
 }
 
-.emoji-textarea-pollup-container {
+.emojiTextareaPollupContainer {
   font-size: 20px;
   position: absolute;
   bottom: 12px;
@@ -199,11 +199,11 @@ defineExpose({
   z-index: 2;
 }
 
-.emoji-textarea-open-btn {
+.emojiTextareaOpenBtn {
   cursor: pointer;
 }
 
-.emoji-input {
+.emojiInput {
   position: relative;
   width: 100%;
   
@@ -222,7 +222,7 @@ defineExpose({
   }
 }
 
-.emoji-textarea-pollup-container {
+.emojiTextareaPollupContainer {
   font-size: 20px;
   position: absolute;
   right: 0;

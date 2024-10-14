@@ -3,11 +3,11 @@
   "private": false,
   "author": "ADKCodeXD",
   "description": "一个简单的Emoji表情选择组件",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
-  "main": "dist/Vue3Emoji.umd.js",
-  "module": "dist/Vue3Emoji.es.js",
-  "style": "dist/style.css",
+  "main": "./dist/Vue3Emoji.umd.js",
+  "module": "./dist/Vue3Emoji.es.js",
+  "style": "./dist/style.css",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/ADKcodeXD/Vue3-Emoji/issues"
@@ -29,8 +29,8 @@
   ],
   "exports": {
     ".": {
-      "import": "dist/Vue3Emoji.es.js",
-      "require": "dist/Vue3Emoji.umd.js"
+      "import": "./dist/Vue3Emoji.es.js",
+      "require": "./dist/Vue3Emoji.umd.js"
     },
     "./*": "./*"
   },

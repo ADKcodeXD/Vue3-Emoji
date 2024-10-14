@@ -1,15 +1,15 @@
 <template>
 	<div v-if="Object.keys(renderData).length > 0" :class="$style.pollup" id="pollUpEl" ref="pollUpEl">
 		<div>
-			<div :class="$style['tab-name']" v-if="activeTab === 'recent'">
+			<div :class="$style.tabName" v-if="activeTab === 'recent'">
 				<p style="margin: 0 5px">最近使用</p>
-				<a :class="$style['delete-recent']" @click="deleteRecent">删除所有选项</a>
+				<a :class="$style.deleteRecent" @click="deleteRecent">删除所有选项</a>
 			</div>
-			<p :class="$style['tab-name']" v-else>{{ activeTab }}</p>
-			<div :class="$style['emoji-container']" ref="container">
+			<p :class="$style.tabName" v-else>{{ activeTab }}</p>
+			<div :class="$style.emojiContainer" ref="container">
 				<template v-if="activeTab === 'recent'">
 					<div
-						:class="$style['emoji-container-item']"
+						:class="$style.emojiContainerItem"
 						v-for="(emoji, index) in recentDataArr"
 						:key="index"
 						@click="clickEmoji(emoji)"
@@ -20,7 +20,7 @@
 
 				<template v-else>
 					<div
-						:class="$style['emoji-container-item']"
+						:class="$style.emojiContainerItem"
 						v-for="(emoji, index) in renderData[activeTab]"
 						:key="index"
 						@click="clickEmoji(emoji)"
@@ -30,13 +30,13 @@
 				</template>
 			</div>
 		</div>
-		<div :class="$style['tab-container']" ref="tabcontainer">
+		<div :class="$style.tabContainer" ref="tabcontainer">
 			<!-- 最近使用过的的选项 -->
-			<div v-if="needLocal" :class="[$style['tab-item'], activeTab === 'recent' ? $style.active : '']" @click="() => changeTab('recent')">
+			<div v-if="needLocal" :class="[$style.tabItem, activeTab === 'recent' ? $style.active : '']" @click="() => changeTab('recent')">
 				🔥
 			</div>
 			<div
-				:class="[$style['tab-item'], tab === activeTab ? $style.active : '']"
+				:class="[$style.tabItem, tab === activeTab ? $style.active : '']"
 				v-for="tab in groupName"
 				:title="tab"
 				:key="tab"
@@ -232,7 +232,7 @@ $padding: 10px;
 	justify-content: space-between;
 }
 
-.tab-name {
+.tabName {
 	font-size: $fontsize;
 	height: $itemsize;
 	margin: 6px 10px;
@@ -241,12 +241,12 @@ $padding: 10px;
 	align-items: center;
 }
 
-.delete-recent {
+.deleteRecent {
 	color: rgb(49, 190, 255);
 	cursor: pointer;
 }
 
-.emoji-container {
+.emojiContainer {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, calc($itemsize + 2 * $padding));
 	justify-content: space-between;
@@ -255,7 +255,7 @@ $padding: 10px;
 	overflow-y: auto;
 }
 
-.emoji-container-item {
+.emojiContainerItem {
 	padding: $padding;
 	font-size: $fontsize;
 	line-height: $itemsize;
@@ -266,7 +266,7 @@ $padding: 10px;
 	}
 }
 
-.tab-container {
+.tabContainer {
 	width: 100%;
 	height: calc($itemsize + 2 * $padding);
 	overflow: auto;
@@ -275,7 +275,7 @@ $padding: 10px;
 	box-shadow: 3px 3px 10px $shadowColor;
 }
 
-.tab-item {
+.tabItem {
 	padding: $padding;
 	font-size: $fontsize;
 	display: flex;
