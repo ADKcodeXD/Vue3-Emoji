@@ -19,6 +19,7 @@ const optionsName = {
 }
 const disableGroup = ['食物&饮料']
 const abc = ref('这里是双向绑定的值')
+const manualClose = ref()
 const clickEvent = ref('')
 const customIcon: Emoji.JsonData = {
   'Smileys & Emotion': '😚',
@@ -64,6 +65,10 @@ const disableGroup2 = [
   'Flags',
   'Activities',
 ]
+
+const closeCustom = () => {
+  manualClose.value?.closePop()
+}
 </script>
 
 <template>
@@ -96,6 +101,25 @@ const disableGroup2 = [
       <V3Emoji size="mid" :custom-tab="customTab" :disable-group="disableGroup2" />
       <p>customTab</p>
     </div>
+    <div class="test">
+      <V3Emoji size="mid" :keep="true" />
+      <p>keep</p>
+    </div>
+    <div class="test">
+      <V3Emoji
+        size="mid"
+        :immediate-close="true"
+        :manual-close="true"
+        ref="manualClose"
+        @close="
+          () => {
+            console.log('close')
+          }
+        "
+      />
+      <p>manual-close</p>
+    </div>
+    <button @click="closeCustom">close</button>
   </div>
   <div id="app">
     <div>

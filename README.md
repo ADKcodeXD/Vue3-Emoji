@@ -336,7 +336,7 @@ const customTheme = {
 
 |     配置名     |       配置类型        |       默认值        |                                              说明/备注                                               |
 | :------------: | :-------------------: | :-----------------: | :--------------------------------------------------------------------------------------------------: |
-|      size      | ‘mid’\|'small'\|'big' |         mid         |                                           用于调整整体大小                                           |
+|      size      | 'mid'\|'small'\|'big' |         mid         |                                           用于调整整体大小                                           |
 |     theme      |   'dark'\|'default'   |       default       |                                     主题切换 支持亮色和暗黑主题                                      |
 |  manualClose   |        boolean        |        false        |                                 设置为 true 可以手动控制弹出框的关闭                                 |
 |  optionsName   |           -           |         {}          |                                           翻译原有板块名字                                           |
@@ -352,6 +352,7 @@ const customTheme = {
 | unicodeVersion |        number         |         11          |                            在某些设备上可能不能兼容高版本的 emojiunicode                             |
 |     _skin_     |           -           |        none         |                                          暂时无法很好的支持                                          |
 |  tippyOptions  |  自定义 tippy 的配置  |                     |                         https://atomiks.github.io/tippyjs/v6/customization/                          |
+| immediateClose |        boolean        |        false        |                                   设置为 true 时点击表情后立即关闭                                   |
 
 ```ts
 type FixType = 'upleft' | 'upright' | 'upcenter' | 'downleft' | 'downright' | 'downcenter' //控制表情弹出框的位置
