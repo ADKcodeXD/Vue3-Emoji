@@ -3,7 +3,7 @@
   "private": false,
   "author": "ADKCodeXD",
   "description": "一个简单的Emoji表情选择组件",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "license": "MIT",
   "main": "./dist/Vue3Emoji.umd.js",
   "module": "./dist/Vue3Emoji.es.js",
